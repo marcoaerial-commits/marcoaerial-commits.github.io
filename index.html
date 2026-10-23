@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marco FPV Aerial Films · Filmación aérea y FPV</title>
+<meta name="description" content="Filmación aérea cinematográfica, drone FPV, fotografía aérea y transmisión de eventos en vivo. Cotiza en línea en minutos.">
+<meta property="og:title" content="MarcoFPV · Filmación aérea y FPV">
+<meta property="og:description" content="Tomas aéreas cinematográficas y FPV inmersivo para eventos, marcas y deportes. Cotiza en línea.">
+<meta property="og:image" content="assets/logo-cuadrado.png">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --bg2:#080808; --card:#0f0f0f; --line:#222;
+  --txt:#f2f2f2; --muted:#8f8f8f; --accent:#ffffff; --accent2:#bdbdbd;
+  --radius:16px; --max:1150px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:Montserrat,sans-serif;line-height:1.2;font-weight:300;letter-spacing:.02em}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+section{padding:90px 0}
+.eyebrow{color:var(--muted);font-family:Montserrat;font-weight:400;letter-spacing:.45em;text-transform:uppercase;font-size:.72rem}
+.title{font-size:clamp(1.8rem,4vw,2.7rem);margin:.4rem 0 1rem}
+.lead{color:var(--muted);max-width:640px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:2px;font-family:Montserrat;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem!important;border:1px solid transparent;cursor:pointer;transition:.25s;font-size:.95rem}
+.btn-primary{background:#fff;color:#000}
+.btn-primary:hover{background:#d9d9d9;transform:translateY(-2px)}
+.btn-ghost{border-color:#555;color:var(--txt);background:transparent}
+.btn-ghost:hover{border-color:var(--accent)}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:.3s}
+nav.scrolled{background:rgba(11,15,20,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo img{height:34px;width:auto;transition:opacity .3s}
+nav:not(.scrolled) .logo img{opacity:0}
+.links{display:flex;gap:30px;font-family:Montserrat;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+.links a:hover{color:var(--txt)}
+.menu-btn{display:none;background:none;border:0;color:var(--txt);font-size:1.6rem;cursor:pointer}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0}
+.hero video,.hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hero-fallback{background:radial-gradient(1000px 600px at 50% 40%,#1c1c1c 0%,transparent 65%),#000}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.9))}
+.hero video{filter:grayscale(.35)}
+.hero-c{position:relative;z-index:2;padding-top:70px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-logo{width:min(520px,82vw);margin-bottom:2.2rem}
+.hero h1{font-size:clamp(1.6rem,4.2vw,2.8rem);font-weight:200;max-width:820px;letter-spacing:.04em}
+.hero h1 em{font-style:normal;font-weight:500}
+.hero p{color:#c3cede;font-size:1.12rem;max-width:580px;margin:1.2rem 0 2rem}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.stats{display:flex;gap:56px;margin-top:3.5rem;flex-wrap:wrap;justify-content:center;border-top:1px solid #333;padding-top:2rem}
+.stats b{font-family:Montserrat;font-weight:300;font-size:1.6rem;letter-spacing:.08em;display:block}
+.stats span{color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+
+/* SERVICES */
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:28px;transition:.3s}
+.card:hover{transform:translateY(-4px);border-color:#555}
+.ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid #333;background:transparent;filter:grayscale(1);color:var(--accent);margin-bottom:18px}
+.card h3{font-size:1rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.95rem}
+.tag{display:inline-block;margin-top:16px;font-family:Montserrat;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent2)}
+
+/* PORTFOLIO */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0}
+.filters button{background:transparent;border:1px solid #333;color:var(--muted);padding:9px 18px;border-radius:2px;cursor:pointer;font-family:Montserrat;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+.filters button.on{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.pitem{position:relative;aspect-ratio:16/10;border-radius:3px;overflow:hidden;cursor:pointer;background:var(--card)}
+.pitem.v{aspect-ratio:9/12}
+.pitem img{width:100%;height:100%;object-fit:cover;transition:.6s;filter:grayscale(.6)}
+.pitem:hover img{filter:none}
+.pitem:hover img{transform:scale(1.06)}
+.pitem .ph{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a,#050505)}
+.pitem .ov{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85));display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.pitem .ov small{color:var(--muted);font-size:.65rem;text-transform:uppercase;letter-spacing:.3em}
+.pitem .ov b{font-family:Montserrat;font-weight:400;letter-spacing:.05em}
+.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);display:grid;place-items:center;transition:.3s}
+.pitem:hover .play{background:#fff;color:#000}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.lb.open{display:flex}
+.lb-in{width:100%;max-width:1000px;aspect-ratio:16/9}
+.lb-in.v{max-width:420px;aspect-ratio:9/16}
+.lb iframe,.lb img{width:100%;height:100%;border:0;border-radius:12px;object-fit:contain}
+.lb-x{position:absolute;top:18px;right:22px;background:none;border:0;color:#fff;font-size:2rem;cursor:pointer}
+
+/* PROCESS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:s}
+.step{padding:24px;border-left:2px solid var(--line);position:relative}
+.step h3{text-transform:uppercase;letter-spacing:.12em;font-size:.95rem;font-weight:500}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:Montserrat;font-weight:200;font-size:2.6rem;color:var(--accent);opacity:.9;display:block;margin-bottom:6px}
+.step p{color:var(--muted);font-size:.93rem}
+
+/* GEAR */
+.gear{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.gear div{background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:22px}
+.gear b{display:block;font-family:Montserrat;font-weight:500;letter-spacing:.08em;margin-bottom:4px}
+.gear span{color:var(--muted);font-size:.9rem}
+
+/* QUOTE */
+.quote{background:var(--bg2)}
+.qbox{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:30px}
+.qform,.qres{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:28px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:16px 0 6px}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;background:#000;border:1px solid #2a2a2a;color:var(--txt);border-radius:3px;padding:12px 14px;font:inherit;font-size:.95rem}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.addr-row{display:flex;gap:8px}
+.addr-row input{flex:1;min-width:0}
+.addr-row .btn{padding:12px 16px;flex-shrink:0}
+#addrStatus{margin-top:8px}
+#addrStatus.ok{color:#cfe9d4}
+#addrStatus.err{color:#f0b4b4}
+.chk{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.chk label{display:flex;align-items:center;gap:10px;margin:0;color:var(--txt);font-size:.93rem;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:#fff}
+.qres{position:sticky;top:90px;align-self:start}
+.qres .line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.92rem;color:var(--muted)}
+.qres .line b{color:var(--txt);font-weight:500}
+.total{font-family:Montserrat;font-size:2.3rem;font-weight:300;letter-spacing:.04em;margin:18px 0 4px;color:#fff}
+.note{font-size:.78rem;color:var(--muted)}
+.qres .btn{width:100%;justify-content:center;margin-top:12px}
+
+/* FAQ */
+.faq{max-width:800px}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::after{content:"+";color:var(--muted);font-weight:200;font-size:1.5rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px}
+
+/* CONTACT / FOOTER */
+.cta-band{text-align:center;background:radial-gradient(700px 300px at 50% 0%,#1d1d1d,#050505);border:1px solid var(--line);border-radius:4px;padding:64px 24px}
+.cta-band .lead{margin:0 auto 26px}
+footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.social{display:flex;gap:12px}
+.social a{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center}
+.social a:hover{border-color:#fff;color:#fff}
+.wa{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(37,211,102,.7);transition:.3s}
+.wa:hover{transform:scale(1.08)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:860px){
+  .links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--bg2);padding:20px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}
+  .menu-btn{display:block}
+  .qbox{grid-template-columns:1fr}
+  .qres{position:static}
+  section{padding:70px 0}
+  .stats{gap:18px;flex-wrap:nowrap}
+  .stats b{font-size:1.15rem}
+  .stats span{font-size:.55rem;letter-spacing:.12em}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap nav-in">
+    <a href="#" class="logo"><img src="assets/logo.png" alt="Marco FPV Aerial Films"></a>
+    <div class="links" id="links">
+      <a href="#servicios">Servicios</a>
+      <a href="#portafolio">Portafolio</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#cotizar">Cotizar</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+  </div>
+</nav>
+
+<!-- HERO: pon tu video reel en assets/hero.mp4 (corto, sin audio, ~10-15 s, <8 MB) -->
+<header class="hero">
+  <div class="hero-fallback"></div>
+  <video autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+    <source src="assets/hero.mp4" type="video/mp4">
+  </video>
+  <div class="wrap hero-c">
+    <img class="hero-logo" src="assets/logo.png" alt="Marco FPV Aerial Films">
+    <h1>Tomas que <em>vuelan</em> donde otras cámaras no llegan.</h1>
+    <p>Filmación cinematográfica con drone estabilizado y FPV inmersivo para eventos, marcas, deportes y transmisiones en vivo.</p>
+    <div class="ctas">
+      <a href="#cotizar" class="btn btn-primary">Cotizar en línea →</a>
+      <a href="#portafolio" class="btn btn-ghost">▶ Ver trabajos</a>
+    </div>
+    <div class="stats">
+      <div><b>4K</b><span>Calidad cinematográfica</span></div>
+      <div><b>FPV</b><span>Vuelos indoor y con público</span></div>
+      <div><b>24–72 h</b><span>Entrega de material editado</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="wrap">
+    <p class="eyebrow rv">Servicios</p>
+    <h2 class="title rv">Lo que podemos hacer por tu proyecto</h2>
+    <p class="lead rv">Cada vuelo se planifica según el lugar, el público y el resultado que buscas.</p>
+    <div class="grid g3" style="margin-top:40px">
+      <div class="card rv"><div class="ico">🎬</div><h3>Filmación aérea cinematográfica</h3><p>Tomas estables y fluidas en alta resolución para videos corporativos, inmobiliarios, turismo y publicidad.</p><span class="tag">Mavic 3 Pro</span></div>
+      <div class="card rv"><div class="ico">⚡</div><h3>FPV inmersivo</h3><p>Vuelos dinámicos que atraviesan espacios, persiguen la acción y recorren recintos de punta a punta en una sola toma.</p><span class="tag">Avata 2 · FPV 7"</span></div>
+      <div class="card rv"><div class="ico">📸</div><h3>Fotografía aérea</h3><p>Fotos en alta resolución para propiedades, obras, paisajes y registro de eventos.</p><span class="tag">Entrega en alta resolución</span></div>
+      <div class="card rv"><div class="ico">📡</div><h3>Transmisión en vivo</h3><p>Señal aérea en directo para streaming de eventos, conciertos y competencias deportivas.</p><span class="tag">Eventos y deportes</span></div>
+      <div class="card rv"><div class="ico">🏟️</div><h3>Eventos y recintos</h3><p>Conciertos, aniversarios, ceremonias y shows en auditorios y arenas, con planificación de seguridad para el público.</p><span class="tag">Indoor y outdoor</span></div>
+      <div class="card rv"><div class="ico">🔍</div><h3>Inspección técnica</h3><p>Registro visual de techumbres, estructuras y zonas de difícil acceso, sin andamios ni riesgo.</p><span class="tag">Informe con fotos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAFOLIO -->
+<section id="portafolio" style="background:var(--bg2)">
+  <div class="wrap">
+    <p class="eyebrow rv">Portafolio</p>
+    <h2 class="title rv">Trabajos recientes</h2>
+    <p class="lead rv">Toca cualquier trabajo para verlo.</p>
+    <div class="filters rv" id="filters">
+      <button class="on" data-f="all">Todos</button>
+      <button data-f="fpv">FPV</button>
+      <button data-f="aereo">Aéreo</button>
+      <button data-f="eventos">Eventos</button>
+      <button data-f="reels">Reels verticales</button>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="wrap">
+    <p class="eyebrow rv">Cómo trabajamos</p>
+    <h2 class="title rv">De la idea al video final, sin complicaciones</h2>
+    <div class="steps" style="margin-top:40px">
+      <div class="step rv"><h3>Cotizas</h3><p>Usas el cotizador en línea y recibes un valor estimado al instante.</p></div>
+      <div class="step rv"><h3>Planificamos</h3><p>Revisamos el lugar, permisos, horarios y las tomas clave que necesitas.</p></div>
+      <div class="step rv"><h3>Volamos</h3><p>Operación segura en el día del evento, con piloto y asistente.</p></div>
+      <div class="step rv"><h3>Entregamos</h3><p>Material editado por link de descarga, en horizontal y vertical para redes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow rv">Equipamiento</p>
+    <h2 class="title rv">Equipos profesionales para cada toma</h2>
+    <div class="gear" style="margin-top:30px">
+      <div class="rv"><b>DJI Mavic 3 Pro</b><span>Triple cámara, ideal para cine aéreo y fotografía.</span></div>
+      <div class="rv"><b>DJI Avata 2</b><span>FPV seguro para interiores y cerca de personas.</span></div>
+      <div class="rv"><b>Drone FPV 7"</b><span>Velocidad y alcance para deportes y persecuciones.</span></div>
+      <div class="rv"><b>Cámara de acción POV</b><span>Tomas en primera persona desde el operador.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<section id="cotizar" class="quote">
+  <div class="wrap">
+    <p class="eyebrow rv">Cotizador</p>
+    <h2 class="title rv">Calcula tu presupuesto en 1 minuto</h2>
+    <p class="lead rv">Valor estimado y referencial. Te confirmamos el precio final al revisar los detalles.</p>
+
+    <div class="qbox">
+      <form class="qform rv" id="qform" action="https://formsubmit.co/TU_CORREO@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Nueva cotización desde la web">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="">
+        <input type="hidden" name="Total_estimado" id="hTotal">
+
+        <label for="svc">Servicio</label>
+        <select id="svc" name="Servicio"></select>
+
+        <div class="row">
+          <div><label for="days">Jornadas (8 h)</label><input id="days" name="Jornadas" type="number" min="1" value="1"></div>
+          <div><label for="km">Distancia de ida (km)</label><input id="km" name="Km_ida" type="number" min="0" value="0"></div>
+        </div>
+
+        <label for="addr">Dirección del evento</label>
+        <div class="addr-row">
+          <input id="addr" name="Direccion_evento" placeholder="Calle, número y comuna" autocomplete="street-address">
+          <button type="button" class="btn btn-ghost" id="addrBtn">Calcular</button>
+        </div>
+        <p class="note" id="addrStatus">Escribe la dirección y toca Calcular. La distancia se completa sola.</p>
+
+        <label>Extras</label>
+        <div class="chk" id="extras"></div>
+
+        <div class="row">
+          <div><label for="name">Nombre</label><input id="name" name="Nombre" required></div>
+          <div><label for="phone">WhatsApp</label><input id="phone" name="Telefono" type="tel" placeholder="+56 9 ..." required></div>
+        </div>
+        <div class="row">
+          <div><label for="email">Correo</label><input id="email" name="email" type="email" required></div>
+          <div><label for="date">Fecha del evento</label><input id="date" name="Fecha" type="date"></div>
+        </div>
+        <label for="msg">Cuéntanos tu proyecto</label>
+        <textarea id="msg" name="Mensaje" rows="3" placeholder="Lugar, tipo de evento, ideas de tomas..."></textarea>
+        <button class="btn btn-primary" type="submit" style="margin-top:18px">Enviar solicitud por correo</button>
+      </form>
+
+      <aside class="qres rv">
+        <p class="eyebrow">Tu estimación</p>
+        <div id="lines" style="margin-top:12px"></div>
+        <div class="total" id="total">$0</div>
+        <p class="note">Valores en CLP. Incluye traslado y alimentación del equipo. No incluye IVA.</p>
+        <a class="btn btn-primary" id="waQuote" target="_blank" rel="noopener" style="background:#25d366;color:#05230f">Enviar por WhatsApp</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq">
+    <p class="eyebrow rv">Preguntas frecuentes</p>
+    <h2 class="title rv">Resolvemos tus dudas</h2>
+    <details class="rv"><summary>¿Pueden volar dentro de un recinto con público?</summary><p>Sí. Usamos drones FPV con protección de hélices para interiores y planificamos rutas, alturas y zonas seguras junto a la organización del evento.</p></details>
+    <details class="rv"><summary>¿Qué pasa si llueve o hay mucho viento?</summary><p>La seguridad va primero. Si el clima no permite volar, reprogramamos la fecha sin costo adicional.</p></details>
+    <details class="rv"><summary>¿En cuánto tiempo recibo el material?</summary><p>Las fotos y clips en bruto, el mismo día o al siguiente. El video editado, entre 24 y 72 horas según la duración.</p></details>
+    <details class="rv"><summary>¿Entregan formato para Instagram y TikTok?</summary><p>Sí, podemos entregar versiones verticales (9:16) listas para reels, además del formato horizontal.</p></details>
+    <details class="rv"><summary>¿Viajan fuera de Santiago?</summary><p>Sí. Al ingresar la dirección del evento, el cotizador calcula la distancia y suma el traslado automáticamente.</p></details>
+    <details class="rv"><summary>¿Cómo se reserva la fecha?</summary><p>Con la confirmación de la cotización y un abono. El saldo se paga a la entrega del material.</p></details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-band rv">
+      <h2 class="title">¿Tienes un evento en mente?</h2>
+      <p class="lead">Escríbenos y armamos juntos las tomas que harán que tu proyecto destaque.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="#cotizar" class="btn btn-primary">Cotizar ahora</a>
+        <a href="#" class="btn btn-ghost" data-wa="Hola Marco, quiero consultar por un servicio con drone.">Hablar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div><span class="logo"><img src="assets/logo.png" alt="Marco FPV Aerial Films" style="height:30px;margin-bottom:10px"></span>© <span id="yr"></span> · Filmación aérea y FPV · Chile</div>
+    <div class="social">
+      <a href="https://instagram.com/marco.salazarfpv" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="https://tiktok.com/@marcofpv" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.4 1.8 4 4 4.2v3.1c-1.5 0-2.8-.4-4-1.2V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3H16z"/></svg></a>
+      <a href="#" data-wa="Hola Marco" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" href="#" data-wa="Hola Marco, vi tu página web y quiero cotizar un servicio con drone." aria-label="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>
+</a>
+
+<div class="lb" id="lb"><button class="lb-x" id="lbx" aria-label="Cerrar">×</button><div class="lb-in" id="lbin"></div></div>
+
+<script>
+/* ================== CONFIGURACIÓN — EDITA AQUÍ ================== */
+const CONFIG = {
+  whatsapp: "56900000000",            // tu número sin + ni espacios
+  services: [                         // precio por jornada de 8 h (CLP)
+    { id:"grab",  name:"Filmación aérea / FPV", price:200000 },
+    { id:"trans", name:"Transmisión en vivo",   price:250000 },
+    { id:"foto",  name:"Fotografía aérea",      price:150000 },
+    { id:"insp",  name:"Inspección técnica",    price:150000 }
+  ],
+  extras: [
+    { id:"edit",  name:"Edición de video final",            price:60000 },
+    { id:"vert",  name:"Versión vertical para reels",       price:30000 },
+    { id:"urg",   name:"Entrega urgente (24 h)",            price:40000 }
+  ],
+  origen: "Avenida Pastor Guillermo Castillo 270, Maipú, Región Metropolitana, Chile",
+  kmPorLitro: 13,                     // rendimiento del vehículo
+  precioLitro: 1300,                  // CLP por litro de bencina
+  comidaPorPersona: 10000,            // por jornada
+  operadores: 2
+};
+
+/* Portafolio: usa el ID de YouTube (lo que va después de v= o /shorts/)
+   o una imagen en assets/. "thumb" es la miniatura. */
+const PORTFOLIO = [
+  { title:"Concierto en arena",        cat:"eventos", type:"yt", id:"", thumb:"assets/p1.jpg" },
+  { title:"Recorrido FPV de auditorio", cat:"fpv",    type:"yt", id:"", thumb:"assets/p2.jpg" },
+  { title:"Estadio al atardecer",      cat:"aereo",   type:"yt", id:"", thumb:"assets/p3.jpg" },
+  { title:"Reel evento aniversario",   cat:"reels",   type:"yt", id:"", thumb:"assets/p4.jpg", vertical:true },
+  { title:"Fotografía aérea costa",    cat:"aereo",   type:"img", src:"assets/p5.jpg", thumb:"assets/p5.jpg" },
+  { title:"Persecución FPV deportiva", cat:"fpv",     type:"yt", id:"", thumb:"assets/p6.jpg" }
+];
+/* ================================================================ */
+
+const $ = s => document.querySelector(s);
+const clp = n => "$" + Math.round(n).toLocaleString("es-CL");
+const waLink = t => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
+
+$("#yr").textContent = new Date().getFullYear();
+document.querySelectorAll("[data-wa]").forEach(a => { a.href = waLink(a.dataset.wa); a.target = "_blank"; a.rel = "noopener"; });
+
+/* nav */
+addEventListener("scroll", () => $("#nav").classList.toggle("scrolled", scrollY > 40));
+$("#menuBtn").onclick = () => $("#links").classList.toggle("open");
+document.querySelectorAll("#links a").forEach(a => a.onclick = () => $("#links").classList.remove("open"));
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold:.12 });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* hero video fallback */
+const hv = document.querySelector(".hero video");
+hv.addEventListener("error", () => hv.remove(), true);
+hv.querySelector("source").addEventListener("error", () => hv.remove());
+
+/* portfolio */
+function renderPortfolio(f) {
+  $("#pgrid").innerHTML = PORTFOLIO.filter(p => f === "all" || p.cat === f).map((p, i) => `
+    <div class="pitem ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}">
+      <div class="ph"></div>
+      <img src="${p.thumb}" alt="${p.title}" loading="lazy" onerror="this.remove()">
+      ${p.type === "yt" ? '<div class="play">▶</div>' : ""}
+      <div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>
+    </div>`).join("");
+  document.querySelectorAll(".pitem").forEach(el => el.onclick = () => openLB(PORTFOLIO[el.dataset.i]));
+}
+document.querySelectorAll("#filters button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#filters button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on"); renderPortfolio(b.dataset.f);
+});
+renderPortfolio("all");
+
+function openLB(p) {
+  const box = $("#lbin");
+  box.className = "lb-in" + (p.vertical ? " v" : "");
+  if (p.type === "yt" && p.id) box.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  else if (p.type === "img") box.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+  else return;
+  $("#lb").classList.add("open");
+}
+function closeLB() { $("#lb").classList.remove("open"); $("#lbin").innerHTML = ""; }
+$("#lbx").onclick = closeLB;
+$("#lb").onclick = e => { if (e.target.id === "lb") closeLB(); };
+addEventListener("keydown", e => { if (e.key === "Escape") closeLB(); });
+
+/* quote calculator */
+$("#svc").innerHTML = CONFIG.services.map(s => `<option value="${s.id}">${s.name} — ${clp(s.price)}/jornada</option>`).join("");
+$("#extras").innerHTML = CONFIG.extras.map(x => `<label><input type="checkbox" name="Extras[]" value="${x.name}" data-id="${x.id}"> ${x.name} (+${clp(x.price)})</label>`).join("");
+
+let summary = "";
+function calc() {
+  const s = CONFIG.services.find(x => x.id === $("#svc").value);
+  const d = Math.max(1, +$("#days").value || 1);
+  const km = Math.max(0, +$("#km").value || 0);
+  const base = s.price * d;
+  const ex = [...document.querySelectorAll("#extras input:checked")].map(i => CONFIG.extras.find(x => x.id === i.dataset.id));
+  const exTot = ex.reduce((a, x) => a + x.price, 0);
+  const fuel = (km * 2 / CONFIG.kmPorLitro) * CONFIG.precioLitro * d;
+  const food = CONFIG.comidaPorPersona * CONFIG.operadores * d;
+  const total = base + exTot + fuel + food;
+
+  const rows = [[`${s.name} × ${d}`, base], ...ex.map(x => [x.name, x.price]), ["Traslado", fuel], ["Alimentación equipo", food]];
+  $("#lines").innerHTML = rows.map(r => `<div class="line"><span>${r[0]}</span><b>${clp(r[1])}</b></div>`).join("");
+  $("#total").textContent = clp(total);
+  $("#hTotal").value = clp(total);
+
+  summary = `Hola Marco, quiero cotizar:\n• ${s.name} (${d} jornada${d > 1 ? "s" : ""})` +
+    (ex.length ? `\n• Extras: ${ex.map(x => x.name).join(", ")}` : "") +
+    ($("#addr").value ? `\n• Dirección: ${$("#addr").value}` : "") +
+    (km ? `\n• Distancia: ${km} km` : "") +
+    ($("#date").value ? `\n• Fecha: ${$("#date").value}` : "") +
+    ($("#name").value ? `\n• Nombre: ${$("#name").value}` : "") +
+    `\nEstimado web: ${clp(total)}` +
+    ($("#msg").value ? `\n\n${$("#msg").value}` : "");
+  $("#waQuote").href = waLink(summary);
+}
+/* distancia automática: OpenStreetMap (Nominatim) + ruta en auto (OSRM) */
+async function geocode(q) {
+  const u = "https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=cl&accept-language=es&q=" + encodeURIComponent(q);
+  const r = await fetch(u, { headers: { "Accept": "application/json" } });
+  const j = await r.json();
+  if (!j.length) throw new Error("no encontrada");
+  return { lat: +j[0].lat, lon: +j[0].lon, name: j[0].display_name };
+}
+let ORIGEN = null;
+async function getOrigen() {
+  if (ORIGEN) return ORIGEN;
+  try { const c = JSON.parse(localStorage.getItem("mfpv_origen") || "null"); if (c && c.q === CONFIG.origen) return ORIGEN = c; } catch (e) {}
+  const g = await geocode(CONFIG.origen);
+  ORIGEN = { q: CONFIG.origen, lat: g.lat, lon: g.lon };
+  try { localStorage.setItem("mfpv_origen", JSON.stringify(ORIGEN)); } catch (e) {}
+  return ORIGEN;
+}
+function haversine(a, b) {
+  const R = 6371, rad = x => x * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const s = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+async function calcDist() {
+  const q = $("#addr").value.trim(), st = $("#addrStatus");
+  if (q.length < 5) { st.className = "note err"; st.textContent = "Escribe una dirección más completa (calle, número y comuna)."; return; }
+  st.className = "note"; st.textContent = "Buscando la dirección…";
+  $("#addrBtn").disabled = true;
+  try {
+    const [o, d] = await Promise.all([getOrigen(), geocode(q)]);
+    let km, metodo = "por ruta en auto";
+    try {
+      const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=false`);
+      const j = await r.json();
+      km = j.routes[0].distance / 1000;
+    } catch (e) { km = haversine(o, d) * 1.3; metodo = "aproximada"; }
+    $("#km").value = Math.round(km);
+    st.className = "note ok";
+    st.textContent = `✓ ${d.name.split(",").slice(0, 3).join(",")} · ${Math.round(km)} km de ida (${metodo})`;
+    calc();
+  } catch (e) {
+    st.className = "note err";
+    st.textContent = "No encontramos esa dirección. Revisa la comuna o escribe los km a mano.";
+  } finally { $("#addrBtn").disabled = false; }
+}
+$("#addrBtn").onclick = calcDist;
+$("#addr").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); calcDist(); } });
+
+$("#qform").addEventListener("input", calc);
+calc();
+$("#qform").querySelector('[name="_next"]').value = location.href.split("#")[0] + "#gracias";
+if (location.hash === "#gracias") setTimeout(() => alert("¡Gracias! Recibimos tu solicitud y te contactaremos pronto."), 300);
+</script>
+</body>
+</html>
