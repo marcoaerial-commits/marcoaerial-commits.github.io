@@ -286,6 +286,7 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="Total_estimado" id="hTotal">
+        <input type="hidden" name="_autoresponse" id="hAuto">
 
         <label for="svc">Servicio</label>
         <select id="svc" name="Servicio"></select>
@@ -488,6 +489,19 @@ function calc() {
     `\nEstimado web: ${clp(total)}` +
     ($("#msg").value ? `\n\n${$("#msg").value}` : "");
   $("#waQuote").href = waLink(summary);
+
+  const nombre = $("#name").value.trim();
+  $("#hAuto").value =
+    `Hola${nombre ? " " + nombre : ""}, gracias por cotizar con Marco FPV Aerial Films.\n\n` +
+    `Recibimos tu solicitud y te contactaremos pronto para confirmar los detalles.\n\n` +
+    `Resumen de tu cotización:\n` +
+    `• Servicio: ${s.name} (${d} jornada${d > 1 ? "s" : ""})\n` +
+    (ex.length ? `• Extras: ${ex.map(x => x.name).join(", ")}\n` : "") +
+    ($("#addr").value ? `• Dirección del evento: ${$("#addr").value}\n` : "") +
+    ($("#date").value ? `• Fecha: ${$("#date").value.split("-").reverse().join("-")}\n` : "") +
+    `• Total estimado: ${clp(total)} (valor referencial, no incluye IVA)\n\n` +
+    `Si tienes dudas, escríbenos por WhatsApp: +56 9 3907 0008\n\n` +
+    `Marco FPV Aerial Films\nhttps://marcoaerial-commits.github.io`;
 }
 /* distancia automática: OpenStreetMap (Nominatim) + ruta en auto (OSRM) */
 async function geocode(q) {
