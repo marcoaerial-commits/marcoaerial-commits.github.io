@@ -78,6 +78,11 @@ nav:not(.scrolled) .logo img{opacity:0}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .pitem{position:relative;aspect-ratio:16/10;border-radius:3px;overflow:hidden;cursor:pointer;background:var(--card)}
 .pitem.v{aspect-ratio:9/12}
+.pig{min-width:0;border-radius:3px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+.pig a{display:block;padding:40px 20px;text-align:center;color:var(--muted);font-size:.85rem}
+.pig .instagram-media,.pig iframe.instagram-media{min-width:0!important;width:100%!important;max-width:100%!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+.pgrid{align-items:start}
+[hidden]{display:none!important}
 .pitem img{width:100%;height:100%;object-fit:cover;transition:.6s;filter:grayscale(.6)}
 .pitem:hover img{filter:none}
 .pitem:hover img{transform:scale(1.06)}
@@ -398,15 +403,13 @@ const CONFIG = {
   operadores: 2
 };
 
-/* Portafolio: usa el ID de YouTube (lo que va después de v= o /shorts/)
-   o una imagen en assets/. "thumb" es la miniatura. */
+/* Portafolio. Tipos:
+   - Instagram: { type:"ig", url:"link del reel o publicación", cat:"reels" }
+   - YouTube:   { type:"yt", id:"ID del video", title:"…", cat:"fpv", thumb:"assets/p1.jpg" }
+   - Foto:      { type:"img", src:"assets/p5.jpg", thumb:"assets/p5.jpg", title:"…", cat:"aereo" }
+   Categorías: fpv, aereo, eventos, reels */
 const PORTFOLIO = [
-  { title:"Concierto en arena",        cat:"eventos", type:"yt", id:"", thumb:"assets/p1.jpg" },
-  { title:"Recorrido FPV de auditorio", cat:"fpv",    type:"yt", id:"", thumb:"assets/p2.jpg" },
-  { title:"Estadio al atardecer",      cat:"aereo",   type:"yt", id:"", thumb:"assets/p3.jpg" },
-  { title:"Reel evento aniversario",   cat:"reels",   type:"yt", id:"", thumb:"assets/p4.jpg", vertical:true },
-  { title:"Fotografía aérea costa",    cat:"aereo",   type:"img", src:"assets/p5.jpg", thumb:"assets/p5.jpg" },
-  { title:"Persecución FPV deportiva", cat:"fpv",     type:"yt", id:"", thumb:"assets/p6.jpg" }
+  { type:"ig", url:"https://www.instagram.com/reel/DeJwRyph8RZ/", cat:"reels" }
 ];
 /* ================================================================ */
 
@@ -432,8 +435,21 @@ hv.addEventListener("error", () => hv.remove(), true);
 hv.querySelector("source").addEventListener("error", () => hv.remove());
 
 /* portfolio */
+const igLink = u => { const m = String(u).match(/instagram\.com\/(reel|p|tv)\/([\w-]+)/); return m ? `https://www.instagram.com/${m[1]}/${m[2]}/` : ""; };
+function loadIG() {
+  if (window.instgrm) return window.instgrm.Embeds.process();
+  if (document.getElementById("igjs")) return;
+  const s = document.createElement("script");
+  s.id = "igjs"; s.async = true; s.src = "https://www.instagram.com/embed.js";
+  document.body.appendChild(s);
+}
 function renderPortfolio(f) {
-  $("#pgrid").innerHTML = PORTFOLIO.filter(p => f === "all" || p.cat === f).map((p, i) => `
+  $("#pgrid").innerHTML = PORTFOLIO.filter(p => f === "all" || p.cat === f).map(p => p.type === "ig" ? `
+    <div class="pig">
+      <blockquote class="instagram-media" data-instgrm-permalink="${igLink(p.url)}" data-instgrm-version="14">
+        <a href="${igLink(p.url)}" target="_blank" rel="noopener">Ver en Instagram</a>
+      </blockquote>
+    </div>` : `
     <div class="pitem ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}">
       <div class="ph"></div>
       <img src="${p.thumb}" alt="${p.title}" loading="lazy" onerror="this.remove()">
@@ -441,7 +457,12 @@ function renderPortfolio(f) {
       <div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>
     </div>`).join("");
   document.querySelectorAll(".pitem").forEach(el => el.onclick = () => openLB(PORTFOLIO[el.dataset.i]));
+  if (PORTFOLIO.some(p => p.type === "ig")) loadIG();
 }
+/* muestra solo los filtros con trabajos; los oculta si hay una sola categoría */
+const cats = new Set(PORTFOLIO.map(p => p.cat));
+document.querySelectorAll("#filters button").forEach(b => { if (b.dataset.f !== "all" && !cats.has(b.dataset.f)) b.remove(); });
+if (cats.size < 2) $("#filters").hidden = true;
 document.querySelectorAll("#filters button").forEach(b => b.onclick = () => {
   document.querySelectorAll("#filters button").forEach(x => x.classList.remove("on"));
   b.classList.add("on"); renderPortfolio(b.dataset.f);
