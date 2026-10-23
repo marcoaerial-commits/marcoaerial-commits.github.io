@@ -118,6 +118,8 @@ label:first-child{margin-top:0}
 input,select,textarea{width:100%;background:#000;border:1px solid #2a2a2a;color:var(--txt);border-radius:3px;padding:12px 14px;font:inherit;font-size:.95rem}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row>div{min-width:0}
+input[type=date]{-webkit-appearance:none;appearance:none;min-height:48px;display:block}
 .addr-row{display:flex;gap:8px}
 .addr-row input{flex:1;min-width:0}
 .addr-row .btn{padding:12px 16px;flex-shrink:0}
@@ -289,17 +291,16 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <label for="svc">Servicio</label>
         <select id="svc" name="Servicio"></select>
 
-        <div class="row">
-          <div><label for="days">Jornadas (8 h)</label><input id="days" name="Jornadas" type="number" min="1" value="1"></div>
-          <div><label for="km">Distancia de ida (km)</label><input id="km" name="Km_ida" type="number" min="0" value="0"></div>
-        </div>
+        <label for="days">Jornadas (8 h)</label>
+        <input id="days" name="Jornadas" type="number" min="1" value="1">
+        <input type="hidden" id="km" name="Km_ida_desde_Maipu" value="0">
 
         <label for="addr">Dirección del evento</label>
         <div class="addr-row">
           <input id="addr" name="Direccion_evento" placeholder="Calle, número y comuna" autocomplete="street-address">
           <button type="button" class="btn btn-ghost" id="addrBtn">Calcular</button>
         </div>
-        <p class="note" id="addrStatus">Escribe la dirección y toca Calcular. La distancia se completa sola.</p>
+        <p class="note" id="addrStatus">Escribe la dirección y toca Calcular para sumar el traslado.</p>
 
         <label>Extras</label>
         <div class="chk" id="extras"></div>
@@ -482,7 +483,6 @@ function calc() {
   summary = `Hola Marco, quiero cotizar:\n• ${s.name} (${d} jornada${d > 1 ? "s" : ""})` +
     (ex.length ? `\n• Extras: ${ex.map(x => x.name).join(", ")}` : "") +
     ($("#addr").value ? `\n• Dirección: ${$("#addr").value}` : "") +
-    (km ? `\n• Distancia: ${km} km` : "") +
     ($("#date").value ? `\n• Fecha: ${$("#date").value}` : "") +
     ($("#name").value ? `\n• Nombre: ${$("#name").value}` : "") +
     `\nEstimado web: ${clp(total)}` +
@@ -519,19 +519,19 @@ async function calcDist() {
   $("#addrBtn").disabled = true;
   try {
     const [o, d] = await Promise.all([getOrigen(), geocode(q)]);
-    let km, metodo = "por ruta en auto";
+    let km;
     try {
       const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${o.lon},${o.lat};${d.lon},${d.lat}?overview=false`);
       const j = await r.json();
       km = j.routes[0].distance / 1000;
-    } catch (e) { km = haversine(o, d) * 1.3; metodo = "aproximada"; }
+    } catch (e) { km = haversine(o, d) * 1.3; }
     $("#km").value = Math.round(km);
     st.className = "note ok";
-    st.textContent = `✓ ${d.name.split(",").slice(0, 3).join(",")} · ${Math.round(km)} km de ida (${metodo})`;
+    st.textContent = `✓ ${d.name.split(",").slice(0, 3).join(",")} · traslado incluido en la estimación`;
     calc();
   } catch (e) {
     st.className = "note err";
-    st.textContent = "No encontramos esa dirección. Revisa la comuna o escribe los km a mano.";
+    st.textContent = "No encontramos esa dirección. Revisa la calle y la comuna; si no aparece, envía igual la solicitud y te confirmamos el traslado.";
   } finally { $("#addrBtn").disabled = false; }
 }
 $("#addrBtn").onclick = calcDist;
