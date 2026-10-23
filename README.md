@@ -9,7 +9,7 @@ Todo está al inicio del bloque `<script>` de `index.html`, en `CONFIG` y `PORTF
 | Dato | Dónde |
 |---|---|
 | Número de WhatsApp | `CONFIG.whatsapp` (ej. `56912345678`) |
-| Correo que recibe cotizaciones | atributo `action` del formulario (`formsubmit.co/TU_CORREO`) |
+| Correo que recibe cotizaciones | atributo `action` del formulario (`formsubmit.co/marcoaerial@gmail.com`) |
 | Dirección de salida | `CONFIG.origen` |
 | Precios por jornada y extras | `CONFIG.services` y `CONFIG.extras` |
 | Rendimiento del auto, bencina y comida | `CONFIG.kmPorLitro`, `CONFIG.precioLitro`, `CONFIG.comidaPorPersona` |
