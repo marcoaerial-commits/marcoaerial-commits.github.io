@@ -27,3 +27,15 @@ Súbelos a la carpeta `assets/`:
 
 - **FormSubmit**: envía el formulario a tu correo. El primer envío te llega como correo de activación.
 - **OpenStreetMap (Nominatim)** y **OSRM**: buscan la dirección del evento y calculan la distancia en auto.
+
+## Correos desde Gmail (Google Apps Script)
+
+El archivo `apps-script/Codigo.gs` recibe cada cotización, la guarda en la planilla **Cotizaciones MarcoFPV** de Google Drive y envía desde Gmail un aviso a Marco y un correo de respaldo al cliente.
+
+1. Abre la planilla **Cotizaciones MarcoFPV** → **Extensiones → Apps Script**.
+2. Borra el contenido de `Código.gs`, pega el de `apps-script/Codigo.gs` y guarda.
+3. Elige la función `probar` y toca **Ejecutar**. Autoriza los permisos con tu cuenta (en "Google no verificó esta app": **Configuración avanzada → Ir a…**).
+4. **Implementar → Nueva implementación → Aplicación web**. Ejecutar como: **Yo**. Quién tiene acceso: **Cualquier usuario**. Toca **Implementar** y copia la URL que termina en `/exec`.
+5. Pega esa URL en `CONFIG.endpoint` de `index.html`.
+
+Mientras `CONFIG.endpoint` esté vacío, el formulario usa FormSubmit (sin correo de respaldo al cliente).

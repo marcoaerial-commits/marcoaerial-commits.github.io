@@ -286,7 +286,7 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="Total_estimado" id="hTotal">
-        <input type="hidden" name="_autoresponse" id="hAuto">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
         <label for="svc">Servicio</label>
         <select id="svc" name="Servicio"></select>
@@ -379,6 +379,7 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 /* ================== CONFIGURACIÓN — EDITA AQUÍ ================== */
 const CONFIG = {
   whatsapp: "56939070008",            // número sin + ni espacios
+  endpoint: "",                       // URL de la app web de Google Apps Script (correos desde Gmail)
   services: [                         // precio por jornada de 8 h (CLP)
     { id:"grab",  name:"Filmación aérea / FPV", price:200000 },
     { id:"trans", name:"Transmisión en vivo",   price:250000 },
@@ -461,12 +462,12 @@ $("#lb").onclick = e => { if (e.target.id === "lb") closeLB(); };
 addEventListener("keydown", e => { if (e.key === "Escape") closeLB(); });
 
 /* quote calculator */
-$("#svc").innerHTML = CONFIG.services.map(s => `<option value="${s.id}">${s.name} — ${clp(s.price)}/jornada</option>`).join("");
+$("#svc").innerHTML = CONFIG.services.map(s => `<option value="${s.name}" data-id="${s.id}">${s.name} — ${clp(s.price)}/jornada</option>`).join("");
 $("#extras").innerHTML = CONFIG.extras.map(x => `<label><input type="checkbox" name="Extras[]" value="${x.name}" data-id="${x.id}"> ${x.name} (+${clp(x.price)})</label>`).join("");
 
 let summary = "";
 function calc() {
-  const s = CONFIG.services.find(x => x.id === $("#svc").value);
+  const s = CONFIG.services.find(x => x.name === $("#svc").value) || CONFIG.services[0];
   const d = Math.max(1, +$("#days").value || 1);
   const km = Math.max(0, +$("#km").value || 0);
   const base = s.price * d;
@@ -489,19 +490,6 @@ function calc() {
     `\nEstimado web: ${clp(total)}` +
     ($("#msg").value ? `\n\n${$("#msg").value}` : "");
   $("#waQuote").href = waLink(summary);
-
-  const nombre = $("#name").value.trim();
-  $("#hAuto").value =
-    `Hola${nombre ? " " + nombre : ""}, gracias por cotizar con Marco FPV Aerial Films.\n\n` +
-    `Recibimos tu solicitud y te contactaremos pronto para confirmar los detalles.\n\n` +
-    `Resumen de tu cotización:\n` +
-    `• Servicio: ${s.name} (${d} jornada${d > 1 ? "s" : ""})\n` +
-    (ex.length ? `• Extras: ${ex.map(x => x.name).join(", ")}\n` : "") +
-    ($("#addr").value ? `• Dirección del evento: ${$("#addr").value}\n` : "") +
-    ($("#date").value ? `• Fecha: ${$("#date").value.split("-").reverse().join("-")}\n` : "") +
-    `• Total estimado: ${clp(total)} (valor referencial, no incluye IVA)\n\n` +
-    `Si tienes dudas, escríbenos por WhatsApp: +56 9 3907 0008\n\n` +
-    `Marco FPV Aerial Films\nhttps://marcoaerial-commits.github.io`;
 }
 /* distancia automática: OpenStreetMap (Nominatim) + ruta en auto (OSRM) */
 async function geocode(q) {
@@ -561,15 +549,18 @@ $("#qform").addEventListener("submit", async e => {
   calc();
   btn.disabled = true; btn.textContent = "Enviando…"; st.className = "note"; st.textContent = "";
   try {
-    const r = await fetch(f.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
-      method: "POST", headers: { "Accept": "application/json" }, body: new FormData(f)
-    });
+    const fd = new FormData(f);
+    const r = CONFIG.endpoint
+      ? await fetch(CONFIG.endpoint, { method: "POST", body: new URLSearchParams(fd) })
+      : await fetch(f.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+          method: "POST", headers: { "Accept": "application/json" }, body: fd
+        });
     const j = await r.json();
     if (!r.ok || String(j.success) !== "true") throw new Error(j.message || "error");
     f.reset(); calc();
     $("#addrStatus").className = "note"; $("#addrStatus").textContent = "Escribe la dirección y toca Calcular para sumar el traslado.";
     st.className = "note ok";
-    st.textContent = "✓ ¡Solicitud enviada! Te contactaremos pronto por WhatsApp o correo.";
+    st.textContent = "✓ ¡Solicitud enviada! Te enviamos un resumen a tu correo y te contactaremos pronto.";
     btn.textContent = "Enviada";
     setTimeout(() => { btn.disabled = false; btn.textContent = "Enviar solicitud por correo"; }, 4000);
   } catch (err) {
