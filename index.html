@@ -124,8 +124,8 @@ input[type=date]{-webkit-appearance:none;appearance:none;min-height:48px;display
 .addr-row input{flex:1;min-width:0}
 .addr-row .btn{padding:12px 16px;flex-shrink:0}
 #addrStatus{margin-top:8px}
-#addrStatus.ok{color:#cfe9d4}
-#addrStatus.err{color:#f0b4b4}
+.note.ok{color:#cfe9d4}
+.note.err{color:#f0b4b4}
 .chk{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 .chk label{display:flex;align-items:center;gap:10px;margin:0;color:var(--txt);font-size:.93rem;cursor:pointer}
 .chk input{width:18px;height:18px;accent-color:#fff}
@@ -285,7 +285,6 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <input type="hidden" name="_subject" value="Nueva cotización desde la web">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="">
         <input type="hidden" name="Total_estimado" id="hTotal">
 
         <label for="svc">Servicio</label>
@@ -315,7 +314,8 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         </div>
         <label for="msg">Cuéntanos tu proyecto</label>
         <textarea id="msg" name="Mensaje" rows="3" placeholder="Lugar, tipo de evento, ideas de tomas..."></textarea>
-        <button class="btn btn-primary" type="submit" style="margin-top:18px">Enviar solicitud por correo</button>
+        <button class="btn btn-primary" type="submit" id="sendBtn" style="margin-top:18px">Enviar solicitud por correo</button>
+        <p class="note" id="sendStatus" role="status" style="margin-top:12px"></p>
       </form>
 
       <aside class="qres rv">
@@ -539,8 +539,31 @@ $("#addr").addEventListener("keydown", e => { if (e.key === "Enter") { e.prevent
 
 $("#qform").addEventListener("input", calc);
 calc();
-$("#qform").querySelector('[name="_next"]').value = location.href.split("#")[0] + "#gracias";
-if (location.hash === "#gracias") setTimeout(() => alert("¡Gracias! Recibimos tu solicitud y te contactaremos pronto."), 300);
+/* envío sin salir de la página */
+$("#qform").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, btn = $("#sendBtn"), st = $("#sendStatus");
+  if (!f.reportValidity()) return;
+  calc();
+  btn.disabled = true; btn.textContent = "Enviando…"; st.className = "note"; st.textContent = "";
+  try {
+    const r = await fetch(f.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+      method: "POST", headers: { "Accept": "application/json" }, body: new FormData(f)
+    });
+    const j = await r.json();
+    if (!r.ok || String(j.success) !== "true") throw new Error(j.message || "error");
+    f.reset(); calc();
+    $("#addrStatus").className = "note"; $("#addrStatus").textContent = "Escribe la dirección y toca Calcular para sumar el traslado.";
+    st.className = "note ok";
+    st.textContent = "✓ ¡Solicitud enviada! Te contactaremos pronto por WhatsApp o correo.";
+    btn.textContent = "Enviada";
+    setTimeout(() => { btn.disabled = false; btn.textContent = "Enviar solicitud por correo"; }, 4000);
+  } catch (err) {
+    st.className = "note err";
+    st.textContent = "No pudimos enviar la solicitud. Inténtalo de nuevo o usa el botón de WhatsApp.";
+    btn.disabled = false; btn.textContent = "Enviar solicitud por correo";
+  }
+});
 </script>
 </body>
 </html>
