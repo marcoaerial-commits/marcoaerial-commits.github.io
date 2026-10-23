@@ -79,8 +79,12 @@ nav:not(.scrolled) .logo img{opacity:0}
 .pitem{position:relative;aspect-ratio:16/10;border-radius:3px;overflow:hidden;cursor:pointer;background:var(--card)}
 .pitem.v{aspect-ratio:9/12}
 .pig{min-width:0;border-radius:3px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
-.pig a{display:block;padding:40px 20px;text-align:center;color:var(--muted);font-size:.85rem}
-.pig .instagram-media,.pig iframe.instagram-media{min-width:0!important;width:100%!important;max-width:100%!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+/* recorta la cabecera y el pie blancos del reproductor de Instagram */
+.pig{--ig-top:56px}
+.pig-crop{position:relative;width:100%;height:0;padding-bottom:calc(177.78% - 12px);overflow:hidden;background:#000}
+.pig-crop iframe{position:absolute;left:0;top:calc(var(--ig-top) * -1);width:100%;height:calc(100% + var(--ig-top) + 260px);border:0;background:#000}
+.pig-link{display:block;padding:12px 16px;text-align:center;font-family:Montserrat;font-size:.66rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line)}
+.pig-link:hover{color:var(--txt)}
 .pgrid{align-items:start}
 [hidden]{display:none!important}
 .pitem img{width:100%;height:100%;object-fit:cover;transition:.6s;filter:grayscale(.6)}
@@ -436,19 +440,11 @@ hv.querySelector("source").addEventListener("error", () => hv.remove());
 
 /* portfolio */
 const igLink = u => { const m = String(u).match(/instagram\.com\/(reel|p|tv)\/([\w-]+)/); return m ? `https://www.instagram.com/${m[1]}/${m[2]}/` : ""; };
-function loadIG() {
-  if (window.instgrm) return window.instgrm.Embeds.process();
-  if (document.getElementById("igjs")) return;
-  const s = document.createElement("script");
-  s.id = "igjs"; s.async = true; s.src = "https://www.instagram.com/embed.js";
-  document.body.appendChild(s);
-}
 function renderPortfolio(f) {
   $("#pgrid").innerHTML = PORTFOLIO.filter(p => f === "all" || p.cat === f).map(p => p.type === "ig" ? `
     <div class="pig">
-      <blockquote class="instagram-media" data-instgrm-permalink="${igLink(p.url)}" data-instgrm-version="14">
-        <a href="${igLink(p.url)}" target="_blank" rel="noopener">Ver en Instagram</a>
-      </blockquote>
+      <div class="pig-crop"><iframe src="${igLink(p.url)}embed/" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; fullscreen" title="Reel de Instagram"></iframe></div>
+      <a class="pig-link" href="${igLink(p.url)}" target="_blank" rel="noopener">Ver en Instagram ↗</a>
     </div>` : `
     <div class="pitem ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}">
       <div class="ph"></div>
@@ -457,7 +453,6 @@ function renderPortfolio(f) {
       <div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>
     </div>`).join("");
   document.querySelectorAll(".pitem").forEach(el => el.onclick = () => openLB(PORTFOLIO[el.dataset.i]));
-  if (PORTFOLIO.some(p => p.type === "ig")) loadIG();
 }
 /* muestra solo los filtros con trabajos; los oculta si hay una sola categoría */
 const cats = new Set(PORTFOLIO.map(p => p.cat));
