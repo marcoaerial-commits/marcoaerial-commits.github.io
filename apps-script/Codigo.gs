@@ -23,12 +23,15 @@ const AJUSTES = {
   whatsapp: "56939070008",
   web: "https://marcofpv.cl",
   logo: "https://marcofpv.cl/assets/logo.png",
-  validezDias: 15
+  validezDias: 15,
+  carpetaPdf: "1TadG7Z_poljNRY58X2qvkFmG-RZbue52"   // carpeta "Cotizaciones MarcoFPV - PDF" en tu Drive
+  // Titular, RUT y correo del PDF se leen de la planilla privada (filas con Tipo "dato"),
+  // para que el RUT no quede publicado en GitHub.
 };
 
 const COLUMNAS = ["Fecha de envío", "Nombre", "WhatsApp", "Correo", "Servicio", "Jornadas", "Extras",
   "Dirección del evento", "Km ida desde Maipú", "Fecha del evento", "Total estimado", "Mensaje", "Estado",
-  "Folio", "Desglose interno"];
+  "Folio", "Desglose interno", "PDF"];
 
 /* ================= recepción ================= */
 
@@ -61,10 +64,19 @@ function doPost(e) {
 
     d.fechaTexto = d.fecha ? d.fecha.split("-").reverse().join("-") : "Por definir";
     d.c = calcular(d, precios.ajustes);
+    d.titular = {
+      nombre: precios.datos.titular || "Marco Salazar",
+      rut: precios.datos.rut || "",
+      correo: precios.datos.correo || AJUSTES.miCorreo
+    };
 
     const lock = LockService.getScriptLock();
     lock.waitLock(20000);
-    try { d.folio = guardarEnPlanilla(d); } finally { lock.releaseLock(); }
+    try {
+      d.folio = siguienteFolio();
+      d.pdf = crearPdf(d);
+      guardarEnPlanilla(d);
+    } finally { lock.releaseLock(); }
 
     cotizacionAlCliente(d);
     avisarAMarco(d);
@@ -83,7 +95,7 @@ function doGet() {
 
 function leerPrecios() {
   const filas = SpreadsheetApp.openById(AJUSTES.planillaPrecios).getSheets()[0].getDataRange().getValues().slice(1);
-  const out = { servicios: {}, extras: {}, ajustes: {} };
+  const out = { servicios: {}, extras: {}, ajustes: {}, datos: {} };
   filas.forEach(([tipo, clave, nombre, valor]) => {
     tipo = String(tipo).trim().toLowerCase(); clave = String(clave).trim();
     const v = Number(String(valor).replace(/[^\d.,-]/g, "").replace(/\./g, "").replace(",", ".")) || 0;
@@ -91,6 +103,7 @@ function leerPrecios() {
     if (tipo === "servicio") out.servicios[clave] = { id: clave, nombre: String(nombre), precio: v };
     else if (tipo === "extra") out.extras[clave] = { id: clave, nombre: String(nombre), precio: v };
     else if (tipo === "ajuste") out.ajustes[clave] = v;
+    else if (tipo === "dato") out.datos[clave] = String(nombre).trim();
   });
   return out;
 }
@@ -130,16 +143,104 @@ function calcular(d, a) {
 
 /* ================= planilla ================= */
 
-function guardarEnPlanilla(d) {
+function hojaCotizaciones() {
   const hoja = SpreadsheetApp.openById(AJUSTES.planillaCotizaciones).getSheets()[0];
   if (hoja.getRange(1, COLUMNAS.length).getValue() === "") hoja.getRange(1, 1, 1, COLUMNAS.length).setValues([COLUMNAS]);
-  const folio = "COT-" + new Date().getFullYear() + "-" + String(hoja.getLastRow()).padStart(4, "0");
+  return hoja;
+}
+
+function siguienteFolio() {
+  return "COT-" + new Date().getFullYear() + "-" + String(hojaCotizaciones().getLastRow()).padStart(4, "0");
+}
+
+function guardarEnPlanilla(d) {
+  const hoja = hojaCotizaciones();
+  const folio = d.folio;
   hoja.appendRow([
     new Date(), d.nombre, d.telefono, d.correo, d.servicios.map(x => x.nombre).join(" + "), d.jornadas,
     d.extras.map(x => x.nombre).join(", "), d.direccion, Math.round(d.km), d.fechaTexto, d.c.total, d.mensaje,
-    "Nueva", folio, desgloseTexto(d)
+    "Nueva", folio, desgloseTexto(d), d.pdf ? d.pdf.url : ""
   ]);
   return folio;
+}
+
+/* ================= PDF ================= */
+
+function crearPdf(d) {
+  try {
+    const html = HtmlService.createHtmlOutput(htmlPdf(d)).getContent();
+    const blob = Utilities.newBlob(html, "text/html", "cotizacion.html").getAs("application/pdf")
+      .setName(`${d.folio} - ${d.nombre}.pdf`);
+    const raiz = DriveApp.getFolderById(AJUSTES.carpetaPdf);
+    const nombreCarpeta = d.nombre.replace(/[\/:*?"|]/g, "").trim() || "Sin nombre";
+    const it = raiz.getFoldersByName(nombreCarpeta);
+    const carpeta = it.hasNext() ? it.next() : raiz.createFolder(nombreCarpeta);
+    const archivo = carpeta.createFile(blob);
+    return { blob: archivo.getBlob(), url: archivo.getUrl() };
+  } catch (e) {
+    console.error("No se pudo crear el PDF", e);
+    return null;
+  }
+}
+
+function logoDataUri() {
+  try {
+    const b = UrlFetchApp.fetch(AJUSTES.logo).getBlob();
+    return "data:" + b.getContentType() + ";base64," + Utilities.base64Encode(b.getBytes());
+  } catch (e) { return ""; }
+}
+
+function htmlPdf(d) {
+  const c = d.c, t = d.titular;
+  const hoy = Utilities.formatDate(new Date(), "America/Santiago", "dd-MM-yyyy");
+  const vence = Utilities.formatDate(new Date(Date.now() + AJUSTES.validezDias * 864e5), "America/Santiago", "dd-MM-yyyy");
+  const logo = logoDataUri();
+  const fila = (k, v, fuerte) => `<tr><td class="k">${k}</td><td class="v${fuerte ? " f" : ""}">${v}</td></tr>`;
+  const items = [
+    ...d.servicios.map(x => fila(x.nombre, `${d.jornadas} jornada${d.jornadas > 1 ? "s" : ""} de 8 h`)),
+    ...(c.descuentoPct ? [fila(`Descuento por ${d.servicios.length} servicios`, `${c.descuentoPct}%`)] : []),
+    ...d.extras.map(x => fila(x.nombre, "Incluido")),
+    fila(c.peajes ? "Traslado, peajes y alimentación del equipo" : "Traslado y alimentación del equipo", "Incluido")
+  ].join("");
+  return `<html><head><meta charset="utf-8"><style>
+    @page { size: A4; margin: 0; }
+    body { margin:0; font-family: Helvetica, Arial, sans-serif; color:#1a1a1a; font-size:12px; }
+    .top { background:#000; padding:26px 40px; }
+    .top img { height:70px; }
+    .wrap { padding:28px 40px; }
+    h1 { font-size:20px; font-weight:300; letter-spacing:1px; margin:0 0 4px; }
+    .muted { color:#777; }
+    .cols { width:100%; border-collapse:collapse; margin:18px 0 8px; }
+    .cols td { vertical-align:top; width:50%; padding:0 12px 0 0; line-height:1.6; }
+    .lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:4px; }
+    table.items { width:100%; border-collapse:collapse; margin-top:18px; }
+    table.items th { text-align:left; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#888; border-bottom:1px solid #1a1a1a; padding:8px 0; }
+    td.k { padding:10px 0; border-bottom:1px solid #e3e3e3; }
+    td.v { padding:10px 0; border-bottom:1px solid #e3e3e3; text-align:right; white-space:nowrap; }
+    .total { margin-top:18px; text-align:right; }
+    .total .n { font-size:26px; font-weight:300; }
+    .cond { margin-top:26px; padding-top:14px; border-top:1px solid #e3e3e3; line-height:1.7; color:#555; font-size:11px; }
+    .foot { margin-top:26px; color:#999; font-size:10px; text-align:center; letter-spacing:1px; }
+  </style></head><body>
+  <div class="top">${logo ? `<img src="${logo}">` : `<span style="color:#fff;font-size:22px;letter-spacing:4px">MARCO · FPV AERIAL FILMS</span>`}</div>
+  <div class="wrap">
+    <h1>Cotización ${d.folio}</h1>
+    <div class="muted">Emitida el ${hoy} · Válida hasta el ${vence}</div>
+    <table class="cols"><tr>
+      <td><div class="lbl">De</div>${t.nombre}${t.rut ? `<br>RUT ${t.rut}` : ""}<br>${t.correo}<br>WhatsApp +56 9 3907 0008<br>marcofpv.cl</td>
+      <td><div class="lbl">Para</div>${d.nombre}<br>${d.correo}${d.telefono ? `<br>${d.telefono}` : ""}<br><br>
+        <div class="lbl">Evento</div>${d.direccion || "Dirección por confirmar"}<br>Fecha: ${d.fechaTexto}</td>
+    </tr></table>
+    <table class="items"><tr><th>Detalle</th><th style="text-align:right">Cantidad</th></tr>${items}</table>
+    <div class="total"><div class="lbl">Total</div><div class="n">${clp(c.total)}</div><div class="muted">Pesos chilenos · No incluye IVA</div></div>
+    <div class="cond"><div class="lbl">Condiciones</div>
+      • Cotización referencial, válida por ${AJUSTES.validezDias} días. El valor final se confirma al revisar el lugar y los detalles del evento.<br>
+      • La fecha queda reservada al confirmar la cotización. Forma de pago a convenir.<br>
+      • Si el clima no permite volar con seguridad, el servicio se reprograma sin costo adicional.<br>
+      • Entrega del material en 24 a 48 horas por link de descarga.
+    </div>
+    <div class="foot">MARCO FPV AERIAL FILMS · marcofpv.cl</div>
+  </div></body></html>`;
 }
 
 function desgloseTexto(d) {
@@ -168,9 +269,10 @@ function cotizacionAlCliente(d) {
     replyTo: AJUSTES.miCorreo,
     name: AJUSTES.nombreRemitente,
     subject: `Tu cotización ${d.folio} · Marco FPV Aerial Films`,
+    attachments: d.pdf ? [d.pdf.blob] : [],
     htmlBody: plantilla(
       `Hola ${d.nombre}, aquí está tu cotización`,
-      `Folio <b>${d.folio}</b>. Gracias por considerarnos para tu proyecto.`,
+      `Folio <b>${d.folio}</b>. Gracias por considerarnos para tu proyecto.${d.pdf ? " Adjuntamos la cotización en PDF." : ""}`,
       filas,
       `<p style="margin:18px 0 0;color:#8f8f8f;font-size:13px;line-height:1.6">Valor en pesos chilenos, no incluye IVA. ` +
       `Cotización válida por ${AJUSTES.validezDias} días. Te confirmamos el valor final al revisar el lugar y los detalles del evento.</p>
@@ -201,7 +303,8 @@ function avisarAMarco(d) {
     ["Traslado", `${clp(c.traslado)} · ${Math.round(d.km)} km ida · bencina ${clp(c.litro)}/l`],
     ["Peajes", clp(c.peajes)],
     ["Alimentación", clp(c.comida)],
-    ["Mensaje", d.mensaje || "—"]
+    ["Mensaje", d.mensaje || "—"],
+    ["PDF", d.pdf ? `<a href="${d.pdf.url}" style="color:#ffffff">Ver cotización en Drive</a>` : "No se pudo generar"]
   ];
   MailApp.sendEmail({
     to: AJUSTES.miCorreo,
@@ -254,9 +357,9 @@ function probar() {
   doPost({
     parameter: {
       Nombre: "Prueba", Telefono: "939070008", email: AJUSTES.miCorreo,
-      Servicios_ids: "grab,foto", Jornadas: "1", Direccion_evento: "Viña del Mar",
+      Servicios_ids: "video_full", Jornadas: "1", Direccion_evento: "Viña del Mar",
       Km_ida_desde_Maipu: "120", Fecha: "2026-11-15", Mensaje: "Correo de prueba"
     },
-    parameters: { "Extras[]": ["edit"] }
+    parameters: { "Extras[]": ["vert"] }
   });
 }
