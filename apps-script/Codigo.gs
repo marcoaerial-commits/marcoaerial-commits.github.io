@@ -1,7 +1,7 @@
 /**
  * Marco FPV Aerial Films · Cotizaciones
  *
- * Recibe las solicitudes de https://marcoaerial-commits.github.io/cotizar.html,
+ * Recibe las solicitudes de https://marcofpv.cl/cotizar.html,
  * calcula el valor con los precios de la planilla privada "Precios MarcoFPV",
  * guarda la solicitud en "Cotizaciones MarcoFPV" y envía desde tu Gmail:
  *   - al cliente: su cotización con el total (sin desglose de costos internos)
@@ -17,12 +17,12 @@
 const AJUSTES = {
   planillaCotizaciones: "19zwupJG8FBwBzVkBFGLaVrUqJOxZJXb9XgH63xm5M1g",
   planillaPrecios: "1-01StYibo8LUbQBospbiI3v7o6mlnZ5whhkm7FbRJEU",
-  combustible: "https://marcoaerial-commits.github.io/combustible.json",
+  combustible: "https://marcofpv.cl/combustible.json",
   miCorreo: "marcoaerial@gmail.com",
   nombreRemitente: "Marco FPV Aerial Films",
   whatsapp: "56939070008",
-  web: "https://marcoaerial-commits.github.io",
-  logo: "https://marcoaerial-commits.github.io/assets/logo.png",
+  web: "https://marcofpv.cl",
+  logo: "https://marcofpv.cl/assets/logo.png",
   validezDias: 15
 };
 
@@ -231,7 +231,7 @@ function plantilla(titulo, intro, filas, pie) {
         ${pie || ""}
       </div>
       <p style="text-align:center;margin:22px 0 0;color:#5f5f5f;font-size:11px;letter-spacing:3px;text-transform:uppercase">
-        <a href="${AJUSTES.web}" style="color:#8f8f8f;text-decoration:none">marcoaerial-commits.github.io</a>
+        <a href="${AJUSTES.web}" style="color:#8f8f8f;text-decoration:none">marcofpv.cl</a>
       </p>
     </div>
   </div>`;
