@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marco FPV Aerial Films · Filmación aérea y FPV</title>
+<meta name="description" content="Filmación aérea cinematográfica, drone FPV, fotografía aérea y transmisión de eventos en vivo. Cotiza en línea en minutos.">
+<meta property="og:title" content="MarcoFPV · Filmación aérea y FPV">
+<meta property="og:description" content="Tomas aéreas cinematográficas y FPV inmersivo para eventos, marcas y deportes. Cotiza en línea.">
+<meta property="og:image" content="assets/logo-cuadrado.png">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --bg2:#080808; --card:#0f0f0f; --line:#222;
+  --txt:#f2f2f2; --muted:#8f8f8f; --accent:#ffffff; --accent2:#bdbdbd;
+  --radius:16px; --max:1150px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:Montserrat,sans-serif;line-height:1.2;font-weight:300;letter-spacing:.02em}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+section{padding:90px 0}
+.eyebrow{color:var(--muted);font-family:Montserrat;font-weight:400;letter-spacing:.45em;text-transform:uppercase;font-size:.72rem}
+.title{font-size:clamp(1.8rem,4vw,2.7rem);margin:.4rem 0 1rem}
+.lead{color:var(--muted);max-width:640px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:2px;font-family:Montserrat;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem!important;border:1px solid transparent;cursor:pointer;transition:.25s;font-size:.95rem}
+.btn-primary{background:#fff;color:#000}
+.btn-primary:hover{background:#d9d9d9;transform:translateY(-2px)}
+.btn-ghost{border-color:#555;color:var(--txt);background:transparent}
+.btn-ghost:hover{border-color:var(--accent)}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:.3s}
+nav.scrolled{background:rgba(11,15,20,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo img{height:34px;width:auto;transition:opacity .3s}
+nav:not(.scrolled) .logo img{opacity:0}
+.links{display:flex;gap:30px;font-family:Montserrat;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+.links a:hover{color:var(--txt)}
+.menu-btn{display:none;background:none;border:0;color:var(--txt);font-size:1.6rem;cursor:pointer}
+.nav-r{display:flex;align-items:center;gap:18px}
+.nav-ig{display:grid;place-items:center;width:40px;height:40px;border:1px solid #333;border-radius:50%;color:var(--txt);transition:.25s}
+.nav-ig:hover{border-color:#fff;background:#fff;color:#000}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0}
+.hero video,.hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hero-fallback{background:radial-gradient(1000px 600px at 50% 40%,#1c1c1c 0%,transparent 65%),#000}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,0) 70%)}
+.bgvid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(.35);background:#000}
+.bgshade{position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,.48);pointer-events:none}
+.hero-c{position:relative;z-index:2;padding-top:70px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-logo{width:min(520px,82vw);margin-bottom:2.2rem}
+.hero h1{font-size:clamp(1.6rem,4.2vw,2.8rem);font-weight:200;max-width:820px;letter-spacing:.04em}
+.hero h1 em{font-style:normal;font-weight:500}
+.hero p{color:#c3cede;font-size:1.12rem;max-width:580px;margin:1.2rem 0 2rem}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.stats{display:flex;gap:56px;margin-top:3.5rem;flex-wrap:wrap;justify-content:center;border-top:1px solid #333;padding-top:2rem}
+.stats b{font-family:Montserrat;font-weight:300;font-size:1.6rem;letter-spacing:.08em;display:block}
+.stats span{color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+
+/* SERVICES */
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:28px;transition:.3s}
+.card:hover{transform:translateY(-4px);border-color:#555}
+.ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid #333;background:transparent;filter:grayscale(1);color:var(--accent);margin-bottom:18px}
+.card h3{font-size:1rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.95rem}
+.tag{display:inline-block;margin-top:16px;font-family:Montserrat;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent2)}
+
+/* PORTFOLIO */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0}
+.filters button{background:transparent;border:1px solid #333;color:var(--muted);padding:9px 18px;border-radius:2px;cursor:pointer;font-family:Montserrat;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+.filters button.on{background:var(--txt);color:var(--bg);border-color:var(--txt)}
+.pgrid{display:flex;flex-direction:column;gap:16px}
+.pg-h{display:grid;grid-template-columns:repeat(var(--ch,2),minmax(0,1fr));gap:16px}
+.pg-v{display:grid;grid-template-columns:repeat(var(--cv,3),minmax(0,1fr));gap:16px}
+.pitem{position:relative;aspect-ratio:16/10;border-radius:3px;overflow:hidden;cursor:pointer;background:var(--card)}
+.pitem.v{aspect-ratio:9/12}
+.pig{min-width:0;border-radius:3px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+/* recorta la cabecera y el pie blancos del reproductor de Instagram.
+   Instagram muestra el contenido en un cuadro 4:5; en los reels (9:16) además
+   se amplía el reproductor para quitar las franjas negras de los costados. */
+.pig{--ig-top:56px}
+.pig-crop{position:relative;width:100%;height:0;padding-bottom:calc(125% - 4px);overflow:hidden;background:#000}
+.pig-crop iframe{position:absolute;left:0;top:calc(var(--ig-top) * -1);width:100%;height:calc(100% + var(--ig-top) + 400px);border:0;background:#000}
+.pig-reel .pig-crop{padding-bottom:calc(177.78% - 4px)}
+.pig-reel .pig-crop iframe{width:142.22%;left:-21.11%}
+/* videos horizontales (16:9): Instagram los muestra en su propio formato, sin franjas */
+.pig-h .pig-crop{padding-bottom:calc(56.25% - 4px)}
+.pg-h,.pg-v{align-items:start}
+.pig-again{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.55);color:#fff;font-size:1.15rem;line-height:1;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.pig-again:hover,.pig-again:focus-visible{background:#fff;color:#000}
+[hidden]{display:none!important}
+.pitem img{width:100%;height:100%;object-fit:cover;transition:.6s;filter:grayscale(.6)}
+.pitem:hover img{filter:none}
+.pitem:hover img{transform:scale(1.06)}
+.pitem .ph{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a,#050505)}
+.pitem .ov{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85));display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.pitem .ov small{color:var(--muted);font-size:.65rem;text-transform:uppercase;letter-spacing:.3em}
+.pitem .ov b{font-family:Montserrat;font-weight:400;letter-spacing:.05em}
+.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);display:grid;place-items:center;transition:.3s}
+.pitem:hover .play{background:#fff;color:#000}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.lb.open{display:flex}
+.lb-in{width:100%;max-width:1000px;aspect-ratio:16/9}
+.lb-in.v{max-width:420px;aspect-ratio:9/16}
+.lb iframe,.lb img{width:100%;height:100%;border:0;border-radius:12px;object-fit:contain}
+.lb-x{position:absolute;top:18px;right:22px;background:none;border:0;color:#fff;font-size:2rem;cursor:pointer}
+
+/* PROCESS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:s}
+.step{padding:24px;border-left:2px solid var(--line);position:relative}
+.step h3{text-transform:uppercase;letter-spacing:.12em;font-size:.95rem;font-weight:500}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:Montserrat;font-weight:200;font-size:2.6rem;color:var(--accent);opacity:.9;display:block;margin-bottom:6px}
+.step p{color:var(--muted);font-size:.93rem}
+
+/* GEAR */
+
+/* QUOTE */
+.quote{background:var(--bg2)}
+.qbox{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:30px}
+.qform,.qres{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:28px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:16px 0 6px}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;background:#000;border:1px solid #2a2a2a;color:var(--txt);border-radius:3px;padding:12px 14px;font:inherit;font-size:.95rem}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row>div{min-width:0}
+input[type=date]{-webkit-appearance:none;appearance:none;min-height:48px;display:block}
+.addr-row{display:flex;gap:8px}
+.addr-row input{flex:1;min-width:0}
+.addr-row .btn{padding:12px 16px;flex-shrink:0}
+#addrStatus{margin-top:8px}
+.note.ok{color:#cfe9d4}
+.note.err{color:#f0b4b4}
+.chk{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.hint{color:var(--muted);font-size:.8em;text-transform:none;letter-spacing:0}
+.chk label{display:flex;align-items:center;gap:10px;margin:0;color:var(--txt);font-size:.93rem;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:#fff}
+.qres{position:sticky;top:90px;align-self:start}
+.qres .line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.92rem;color:var(--muted)}
+.qres .line b{color:var(--txt);font-weight:500}
+.total{font-family:Montserrat;font-size:2.3rem;font-weight:300;letter-spacing:.04em;margin:18px 0 4px;color:#fff}
+.note{font-size:.78rem;color:var(--muted)}
+.qres .btn{width:100%;justify-content:center;margin-top:12px}
+
+/* FAQ */
+.faq{max-width:800px}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::after{content:"+";color:var(--muted);font-weight:200;font-size:1.5rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px}
+
+/* CONTACT / FOOTER */
+.cta-band{text-align:center;background:radial-gradient(700px 300px at 50% 0%,#1d1d1d,#050505);border:1px solid var(--line);border-radius:4px;padding:64px 24px}
+.cta-band .lead{margin:0 auto 26px}
+footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.social{display:flex;gap:12px}
+.social a{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center}
+.social a:hover{border-color:#fff;color:#fff}
+.wa{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px -8px rgba(37,211,102,.7);transition:.3s}
+.wa:hover{transform:scale(1.08)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+
+.swipe{display:none}
+@media (max-width:860px){
+  /* portafolio en carrusel horizontal para no alargar la página */
+  .swipe{display:block;margin:8px 0 -6px;color:var(--muted);font-size:.85rem}
+  .pg-h{grid-template-columns:1fr}
+  .pg-v{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;scrollbar-width:none}
+  .pg-v::-webkit-scrollbar{display:none}
+  .pg-v .pig{scroll-snap-align:center}
+  .links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--bg2);padding:20px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}
+  .menu-btn{display:block}
+  .qbox{grid-template-columns:1fr}
+  .qres{position:static}
+  section{padding:70px 0}
+  .stats{gap:18px;flex-wrap:nowrap}
+  .stats b{font-size:1.15rem}
+  .stats span{font-size:.55rem;letter-spacing:.12em}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap nav-in">
+    <a href="#" class="logo"><img src="assets/logo-blanco.png" alt="Marco FPV Aerial Films"></a>
+    <div class="links" id="links">
+      <a href="#servicios">Servicios</a>
+      <a href="#portafolio">Portafolio</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="cotizar.html">Cotizar</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <div class="nav-r">
+      <a class="nav-ig" href="https://www.instagram.com/marco81fpv/" target="_blank" rel="noopener" aria-label="Instagram @marco81fpv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- FONDO: video que avanza y retrocede con el scroll (assets/vuelo.mp4 en PC, assets/vuelo-movil.mp4 en celular) -->
+<video class="bgvid" muted playsinline preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true"></video>
+<div class="bgshade"></div>
+
+<header class="hero">
+  <div class="wrap hero-c">
+    <img class="hero-logo" src="assets/logo-blanco.png" alt="Marco FPV Aerial Films">
+    <h1>Tomas que <em>vuelan</em> donde otras cámaras no llegan.</h1>
+    <p>Filmación cinematográfica con drone estabilizado y FPV inmersivo para eventos, marcas, deportes y transmisiones en vivo.</p>
+    <div class="ctas">
+      <a href="cotizar.html" class="btn btn-primary">Cotizar en línea →</a>
+      <a href="#portafolio" class="btn btn-ghost">▶ Ver trabajos</a>
+    </div>
+    <div class="stats">
+      <div><b>6 años</b><span>Piloto certificado</span></div>
+      <div><b>FPV</b><span>Vuelos indoor y con público</span></div>
+      <div><b>24–48 h</b><span>Entrega del material</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="wrap">
+    <p class="eyebrow rv">Servicios</p>
+    <h2 class="title rv">Lo que podemos hacer por tu proyecto</h2>
+    <p class="lead rv">Cada vuelo se planifica según el lugar, el público y el resultado que buscas.</p>
+    <div class="grid g3" style="margin-top:40px">
+      <div class="card rv"><div class="ico">🎬</div><h3>Filmación aérea cinematográfica</h3><p>Tomas estables y fluidas en alta resolución para videos corporativos, inmobiliarios, turismo y publicidad.</p><span class="tag">Cine 4K</span></div>
+      <div class="card rv"><div class="ico">⚡</div><h3>FPV inmersivo</h3><p>Vuelos dinámicos que atraviesan espacios, persiguen la acción y recorren recintos de punta a punta en una sola toma.</p><span class="tag">Una sola toma</span></div>
+      <div class="card rv"><div class="ico">📸</div><h3>Fotografía aérea</h3><p>Fotos en alta resolución para propiedades, obras, paisajes y registro de eventos.</p><span class="tag">Entrega en alta resolución</span></div>
+      <div class="card rv"><div class="ico">📡</div><h3>Transmisión en vivo</h3><p>Señal aérea en directo para streaming de eventos, conciertos y competencias deportivas.</p><span class="tag">Eventos y deportes</span></div>
+      <div class="card rv"><div class="ico">🏟️</div><h3>Eventos y recintos</h3><p>Conciertos, aniversarios, ceremonias y shows en auditorios y arenas, con planificación de seguridad para el público.</p><span class="tag">Indoor y outdoor</span></div>
+      <div class="card rv"><div class="ico">🔍</div><h3>Inspección técnica</h3><p>Registro visual de techumbres, estructuras y zonas de difícil acceso, sin andamios ni riesgo.</p><span class="tag">Informe con fotos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAFOLIO -->
+<section id="portafolio" style="background:rgba(8,8,8,.72)">
+  <div class="wrap">
+    <p class="eyebrow rv">Portafolio</p>
+    <h2 class="title rv">Trabajos recientes</h2>
+    <p class="lead rv">Toca cualquier video para reproducirlo.</p>
+    <div class="filters rv" id="filters">
+      <button class="on" data-f="all">Todos</button>
+      <button data-f="fpv">FPV</button>
+      <button data-f="aereo">Aéreo</button>
+      <button data-f="eventos">Eventos</button>
+      <button data-f="reels">Reels verticales</button>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="wrap">
+    <p class="eyebrow rv">Cómo trabajamos</p>
+    <h2 class="title rv">De la idea al video final, sin complicaciones</h2>
+    <div class="steps" style="margin-top:40px">
+      <div class="step rv"><h3>Cotizas</h3><p>Usas el cotizador en línea y recibes tu cotización por correo en minutos.</p></div>
+      <div class="step rv"><h3>Planificamos</h3><p>Revisamos el lugar, permisos, horarios y las tomas clave que necesitas.</p></div>
+      <div class="step rv"><h3>Volamos</h3><p>Operación segura con equipos profesionales y protección para vuelos con público, a cargo de piloto certificado y asistente.</p></div>
+      <div class="step rv"><h3>Entregamos</h3><p>Material en alta calidad por link de descarga, en horizontal y vertical para redes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap faq">
+    <p class="eyebrow rv">Preguntas frecuentes</p>
+    <h2 class="title rv">Resolvemos tus dudas</h2>
+    <details class="rv"><summary>¿Pueden volar dentro de un recinto con público?</summary><p>Sí. El vuelo lo realiza un piloto certificado con más de 6 años de experiencia, con drones FPV con protección de hélices para interiores. Planificamos rutas, alturas y zonas seguras junto a la organización del evento.</p></details>
+    <details class="rv"><summary>¿Qué pasa si llueve o hay mucho viento?</summary><p>La seguridad va primero. Si el clima no permite volar, reprogramamos la fecha sin costo adicional.</p></details>
+    <details class="rv"><summary>¿En cuánto tiempo recibo el material?</summary><p>Entre 24 y 48 horas por link de descarga. Si lo necesitas antes, puedes pedir entrega urgente en 24 horas.</p></details>
+    <details class="rv"><summary>¿Entregan formato para Instagram y TikTok?</summary><p>Sí, podemos entregar versiones verticales (9:16) listas para reels, además del formato horizontal.</p></details>
+    <details class="rv"><summary>¿Viajan fuera de Santiago?</summary><p>Sí. Al ingresar la dirección del evento, el cotizador calcula la distancia y suma el traslado automáticamente.</p></details>
+    <details class="rv"><summary>¿Cómo se reserva la fecha?</summary><p>Con la confirmación de la cotización y un abono. El saldo se paga a la entrega del material.</p></details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-band rv">
+      <h2 class="title">¿Tienes un evento en mente?</h2>
+      <p class="lead">Escríbenos y armamos juntos las tomas que harán que tu proyecto destaque.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="cotizar.html" class="btn btn-primary">Cotizar ahora</a>
+        <a href="#" class="btn btn-ghost" data-wa="Hola Marco, quiero consultar por un servicio con drone.">Hablar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div><span class="logo"><img src="assets/logo-blanco.png" alt="Marco FPV Aerial Films" style="height:30px;margin-bottom:10px"></span>© <span id="yr"></span> · Filmación aérea y FPV · Chile</div>
+    <div class="social">
+      <a href="https://www.instagram.com/marco81fpv/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      <a href="https://www.tiktok.com/@marcofpvpilot" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.4 1.8 4 4 4.2v3.1c-1.5 0-2.8-.4-4-1.2V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3H16z"/></svg></a>
+      <a href="#" data-wa="Hola Marco" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" href="#" data-wa="Hola Marco, vi tu página web y quiero cotizar un servicio con drone." aria-label="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>
+</a>
+
+<div class="lb" id="lb"><button class="lb-x" id="lbx" aria-label="Cerrar">×</button><div class="lb-in" id="lbin"></div></div>
+
+<script>
+/* ================== CONFIGURACIÓN — EDITA AQUÍ ================== */
+const CONFIG = {
+  whatsapp: "56939070008"             // número sin + ni espacios
+};
+
+/* Portafolio. Tipos:
+   - Instagram: { type:"ig", url:"link del reel o publicación", cat:"reels" }
+                agrega formato:"horizontal" si el video es 16:9 (apaisado)
+   - YouTube:   { type:"yt", id:"ID del video", title:"…", cat:"fpv", thumb:"assets/p1.jpg" }
+   - Foto:      { type:"img", src:"assets/p5.jpg", thumb:"assets/p5.jpg", title:"…", cat:"aereo" }
+   Categorías: fpv, aereo, eventos, reels */
+const PORTFOLIO = [
+  { type:"ig", url:"https://www.instagram.com/reel/DeJwRyph8RZ/", cat:"reels" },
+  /* Estos dos no se pueden reproducir fuera de Instagram (música con licencia), por eso quedan ocultos:
+  { type:"ig", url:"https://www.instagram.com/reel/DZBr6riN067/", cat:"reels", formato:"horizontal" },
+  { type:"ig", url:"https://www.instagram.com/reel/DWjfARqkZAU/", cat:"reels", formato:"horizontal" }, */
+  /* Instagram le pone una franja blanca encima al reproducirlo:
+  { type:"ig", url:"https://www.instagram.com/reel/DYhcAvVx0E2/", cat:"reels" }, */
+  { type:"ig", url:"https://www.instagram.com/reel/DWksVGiDdiu/", cat:"reels", formato:"horizontal" },
+  { type:"ig", url:"https://www.instagram.com/reel/DWeUSHsEXkO/", cat:"reels", formato:"horizontal" },
+  { type:"ig", url:"https://www.instagram.com/reel/DWXgB_QDbV2/", cat:"reels" },
+  { type:"ig", url:"https://www.instagram.com/reel/DQk3VnBjQnG/", cat:"reels", formato:"horizontal" },
+  /* No se puede reproducir fuera de Instagram:
+  { type:"ig", url:"https://www.instagram.com/reel/DJK26-fRqVH/", cat:"reels" }, */
+  { type:"ig", url:"https://www.instagram.com/reel/DJCU8HkRrnv/", cat:"reels" }
+];
+/* ================================================================ */
+
+const $ = s => document.querySelector(s);
+const clp = n => "$" + Math.round(n).toLocaleString("es-CL");
+const waLink = t => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
+
+$("#yr").textContent = new Date().getFullYear();
+document.querySelectorAll("[data-wa]").forEach(a => { a.href = waLink(a.dataset.wa); a.target = "_blank"; a.rel = "noopener"; });
+
+/* abrir siempre desde el inicio */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const hashTarget = location.hash && document.querySelector(location.hash);
+if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+scrollTo(0, 0);
+let userMoved = false;
+if (hashTarget) { userMoved = true; addEventListener("load", () => hashTarget.scrollIntoView()); }
+["wheel", "touchstart", "keydown", "mousedown"].forEach(ev => addEventListener(ev, () => { userMoved = true; }, { once: true, passive: true }));
+const keepTop = () => { if (!userMoved) scrollTo(0, 0); };
+addEventListener("load", keepTop);
+document.addEventListener("load", e => { if (e.target.tagName === "IFRAME") keepTop(); }, true);
+setTimeout(keepTop, 1500); setTimeout(keepTop, 3500);
+
+/* nav */
+addEventListener("scroll", () => $("#nav").classList.toggle("scrolled", scrollY > 40));
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
+  const t = document.querySelector(a.getAttribute("href"));
+  if (!t) return;
+  e.preventDefault(); userMoved = true;
+  t.scrollIntoView({ behavior: "smooth" });
+}));
+$("#menuBtn").onclick = () => $("#links").classList.toggle("open");
+document.querySelectorAll("#links a").forEach(a => a.onclick = () => $("#links").classList.remove("open"));
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold:.12 });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* video de fondo controlado por el scroll: avanza al bajar y retrocede al subir */
+const bv = document.querySelector(".bgvid");
+if (bv) {
+  bv.src = innerHeight > innerWidth ? "assets/vuelo-movil.mp4?v=2" : "assets/vuelo.mp4?v=2";
+  bv.addEventListener("error", () => bv.remove());
+  let target = 0, cur = 0, running = false;
+  const progress = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  };
+  const step = () => {
+    cur += (target - cur) * 0.18;
+    if (Math.abs(target - cur) < 0.0005) cur = target;
+    const d = bv.duration;
+    if (d && !bv.seeking) {
+      const t = cur * (d - 0.1);
+      if (Math.abs(bv.currentTime - t) > 0.03) bv.currentTime = t;
+    }
+    if (cur !== target || bv.seeking) requestAnimationFrame(step); else running = false;
+  };
+  const kick = () => { target = progress(); if (!running) { running = true; requestAnimationFrame(step); } };
+  addEventListener("scroll", kick, { passive: true });
+  addEventListener("resize", kick);
+  bv.addEventListener("loadedmetadata", kick);
+  /* en iPhone el video debe "despertar" una vez para mostrar cuadros al moverlo */
+  const prime = () => { const pr = bv.play(); if (pr && pr.then) pr.then(() => { bv.pause(); kick(); }).catch(() => {}); };
+  prime();
+  addEventListener("touchstart", prime, { once: true, passive: true });
+}
+
+/* portfolio */
+const igLink = u => { const m = String(u).match(/instagram\.com\/(reel|p|tv)\/([\w-]+)/); return m ? `https://www.instagram.com/${m[1]}/${m[2]}/` : ""; };
+const esHorizontal = p => p.type === "ig" ? p.formato === "horizontal" : !p.vertical;
+function tarjeta(p) {
+  return p.type === "ig" ? `
+    <div class="pig ${p.formato === "horizontal" ? "pig-h" : /\/reel\//.test(igLink(p.url)) ? "pig-reel" : ""}">
+      <div class="pig-crop"><iframe src="${igLink(p.url)}embed/" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; fullscreen" title="Video del portafolio"></iframe>
+        <button type="button" class="pig-again" aria-label="Volver a ver el video" title="Volver a ver">↻</button></div>
+    </div>` : `
+    <div class="pitem ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}">
+      <div class="ph"></div>
+      <img src="${p.thumb}" alt="${p.title}" loading="lazy" onerror="this.remove()">
+      ${p.type === "yt" ? '<div class="play">▶</div>' : ""}
+      <div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>
+    </div>`;
+}
+/* horizontales en cuadrícula de 2 columnas y verticales en fila de 3, para que todo calce parejo */
+function renderPortfolio(f) {
+  const items = PORTFOLIO.filter(p => f === "all" || p.cat === f);
+  const hz = items.filter(esHorizontal), vt = items.filter(p => !esHorizontal(p));
+  /* columnas según cantidad, para que ninguna fila quede incompleta */
+  const cols = (n, max) => { for (let c = Math.min(n, max); c >= 2; c--) if (n % c === 0) return c; return Math.min(n, max); };
+  $("#pgrid").style.setProperty("--ch", cols(hz.length, 3));
+  $("#pgrid").style.setProperty("--cv", cols(vt.length, 4));
+  $("#pgrid").innerHTML =
+    (hz.length ? `<div class="pg-h">${hz.map(tarjeta).join("")}</div>` : "") +
+    (vt.length ? `<p class="swipe">Desliza para ver más →</p><div class="pg-v">${vt.map(tarjeta).join("")}</div>` : "");
+  document.querySelectorAll(".pitem").forEach(el => el.onclick = () => openLB(PORTFOLIO[el.dataset.i]));
+  /* "volver a ver": recarga el video en la página, así no hace falta tocar el aviso de Instagram */
+  document.querySelectorAll(".pig-again").forEach(b => b.onclick = () => { const f = b.previousElementSibling; f.src = f.src; });
+}
+/* muestra solo los filtros con trabajos; los oculta si hay una sola categoría */
+if ($("#pgrid")) {
+const cats = new Set(PORTFOLIO.map(p => p.cat));
+document.querySelectorAll("#filters button").forEach(b => { if (b.dataset.f !== "all" && !cats.has(b.dataset.f)) b.remove(); });
+if (cats.size < 2) $("#filters").hidden = true;
+document.querySelectorAll("#filters button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#filters button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on"); renderPortfolio(b.dataset.f);
+});
+renderPortfolio("all");
+}
+
+function openLB(p) {
+  const box = $("#lbin");
+  box.className = "lb-in" + (p.vertical ? " v" : "");
+  if (p.type === "yt" && p.id) box.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  else if (p.type === "img") box.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
+  else return;
+  $("#lb").classList.add("open");
+}
+function closeLB() { $("#lb").classList.remove("open"); $("#lbin").innerHTML = ""; }
+$("#lbx").onclick = closeLB;
+$("#lb").onclick = e => { if (e.target.id === "lb") closeLB(); };
+addEventListener("keydown", e => { if (e.key === "Escape") closeLB(); });
+
+</script>
+</body>
+</html>
