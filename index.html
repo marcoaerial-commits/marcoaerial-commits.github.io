@@ -1,6 +1,23 @@
 <!doctype html>
 <html lang="es">
 <head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L005VLG4GS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L005VLG4GS');
+  /* clics importantes: WhatsApp, Instagram, TikTok y botones de cotizar */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a'); if (!a) return;
+    var h = a.href || '';
+    if (h.indexOf('wa.me') > -1) gtag('event', 'clic_whatsapp', { ubicacion: a.className || 'enlace' });
+    else if (h.indexOf('instagram.com') > -1) gtag('event', 'clic_instagram');
+    else if (h.indexOf('tiktok.com') > -1) gtag('event', 'clic_tiktok');
+    else if (h.indexOf('cotizar.html') > -1) gtag('event', 'clic_cotizar', { texto: (a.textContent || '').trim().slice(0, 40) });
+  }, true);
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marco FPV Aerial Films · Filmación aérea y FPV</title>
