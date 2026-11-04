@@ -237,7 +237,7 @@ function htmlPdf(d) {
       • Cotización referencial, válida por ${AJUSTES.validezDias} días. El valor final se confirma al revisar el lugar y los detalles del evento.<br>
       • La fecha queda reservada al confirmar la cotización. Forma de pago a convenir.<br>
       • Si el clima no permite volar con seguridad, el servicio se reprograma sin costo adicional.<br>
-      • Entrega del material en 24 a 48 horas por link de descarga.
+      • Entrega del material en menos de 12 horas por link de descarga.
     </div>
     <div class="foot">MARCO FPV AERIAL FILMS · marcofpv.cl</div>
   </div></body></html>`;
