@@ -107,7 +107,13 @@ nav:not(.scrolled) .logo img{opacity:0}
 .card p{text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .card h3{text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .card:hover{transform:translateY(-4px);border-color:#555}
-.ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid #333;background:transparent;filter:grayscale(1);color:var(--accent);margin-bottom:18px}
+.ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.chips span{font-family:Montserrat;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#d8d8d8;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 10px}
+.foot-info{display:flex;flex-direction:column;gap:6px;line-height:1.6}
+.foot-info a{color:var(--txt)}
+.foot-info a:hover{text-decoration:underline}
+.foot-info .muted-s{color:var(--muted);font-size:.8rem}
 .card h3{font-size:1rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
 .card p{color:#c9c9c9;font-size:.95rem}
 .tag{display:inline-block;margin-top:16px;font-family:Montserrat;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent2)}
@@ -286,13 +292,11 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     <p class="eyebrow rv">Servicios</p>
     <h2 class="title rv">Lo que podemos hacer por tu proyecto</h2>
     <p class="lead rv">Cada vuelo se planifica según el lugar, la normativa y el resultado que buscas.</p>
-    <div class="grid g3" style="margin-top:40px">
-      <div class="card rv"><div class="ico">🎬</div><h3>Filmación aérea cinematográfica</h3><p>Tomas estables y fluidas en alta resolución para videos corporativos, inmobiliarios, turismo y publicidad.</p><span class="tag">Cine 4K</span></div>
-      <div class="card rv"><div class="ico">⚡</div><h3>FPV inmersivo</h3><p>Vuelos dinámicos que atraviesan espacios, persiguen la acción y recorren recintos de punta a punta en una sola toma.</p><span class="tag">Una sola toma</span></div>
-      <div class="card rv"><div class="ico">📸</div><h3>Fotografía aérea</h3><p>Fotos en alta resolución para propiedades, obras, paisajes y registro de eventos.</p><span class="tag">Entrega en alta resolución</span></div>
-      <div class="card rv"><div class="ico">📡</div><h3>Transmisión en vivo</h3><p>Señal aérea en directo para streaming de eventos, conciertos y competencias deportivas.</p><span class="tag">Eventos y deportes</span></div>
-      <div class="card rv"><div class="ico">🏟️</div><h3>Eventos y recintos</h3><p>Conciertos, aniversarios, ceremonias y shows en auditorios y arenas, con un plan de vuelo seguro para cada recinto.</p><span class="tag">Indoor y outdoor</span></div>
-      <div class="card rv"><div class="ico">🔍</div><h3>Inspección técnica</h3><p>Registro visual de techumbres, estructuras y zonas de difícil acceso, sin andamios ni riesgo.</p><span class="tag">Informe con fotos</span></div>
+    <div class="grid" style="margin-top:40px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))">
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="13" height="11" rx="2"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/></svg></div><h3>Video del evento</h3><p>Grabación aérea de eventos, conciertos, deportes y proyectos corporativos, en alta resolución y lista para redes.</p><div class="chips"><span>Mavic 3 Pro</span><span>FPV</span><span>Completo</span></div></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M8.5 15.5a5 5 0 0 1 0-7M15.5 8.5a5 5 0 0 1 0 7M5.6 18.4a9 9 0 0 1 0-12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg></div><h3>Transmisión en vivo</h3><p>Señal aérea en directo para el streaming o las pantallas de tu evento, concierto o competencia.</p><div class="chips"><span>Mavic 3 Pro</span><span>FPV</span><span>Completo</span></div></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.7-2.5h6l1.7 2.5h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg></div><h3>Fotografías aéreas</h3><p>Fotos en alta resolución para propiedades, obras, paisajes y registro de eventos.</p><span class="tag">Drone Mavic 3 Pro</span></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M8 10.5h5M10.5 8v5"/></svg></div><h3>Inspección técnica</h3><p>Registro visual de techumbres, estructuras y zonas de difícil acceso, sin andamios ni riesgo.</p><span class="tag">Registro con fotos y video</span></div>
     </div>
   </div>
 </section>
@@ -322,7 +326,7 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     <div class="steps" style="margin-top:40px">
       <div class="step rv"><h3>Cotizas</h3><p>Usas el cotizador en línea y recibes tu cotización por correo en minutos.</p></div>
       <div class="step rv"><h3>Planificamos</h3><p>Revisamos el lugar, permisos, horarios y las tomas clave que necesitas.</p></div>
-      <div class="step rv"><h3>Volamos</h3><p>Operación segura con equipos profesionales y protección de hélices en interiores, a cargo de piloto certificado y asistente.</p></div>
+      <div class="step rv"><h3>Volamos</h3><p>Operación segura con equipos profesionales y protección de hélices en interiores, a cargo de un piloto certificado.</p></div>
       <div class="step rv"><h3>Entregamos</h3><p>Material en alta calidad por link de descarga, en horizontal y vertical para redes.</p></div>
     </div>
   </div>
@@ -358,7 +362,13 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 
 <footer>
   <div class="wrap foot">
-    <div><span class="logo"><img src="assets/logo-blanco.png" alt="Marco FPV Aerial Films" style="height:30px;margin-bottom:10px"></span>© <span id="yr"></span> · Filmación aérea y FPV · Chile</div>
+    <div class="foot-info">
+      <span class="logo"><img src="assets/logo-blanco.png" alt="Marco FPV Aerial Films" style="height:30px;margin-bottom:6px"></span>
+      <span>Santiago · Región Metropolitana · Servicio en todo Chile</span>
+      <span><a href="#" data-wa="Hola Marco, vi tu página web y quiero cotizar un servicio con drone.">WhatsApp +56 9 3907 0008</a> · <a href="mailto:marcoaerial@gmail.com">marcoaerial@gmail.com</a></span>
+      <span><a href="cotizar.html">Cotizar en línea →</a></span>
+      <span class="muted-s">© <span id="yr"></span> Marco FPV Aerial Films · Filmación aérea y FPV</span>
+    </div>
     <div class="social">
       <a href="https://www.instagram.com/marco81fpv/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
       <a href="https://www.tiktok.com/@marcofpvpilot" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.4 1.8 4 4 4.2v3.1c-1.5 0-2.8-.4-4-1.2V15a6 6 0 1 1-6-6v3.2a2.8 2.8 0 1 0 2.8 2.8V3H16z"/></svg></a>
