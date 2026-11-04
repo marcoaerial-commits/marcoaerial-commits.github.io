@@ -306,7 +306,7 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   <div class="wrap">
     <p class="eyebrow rv">Portafolio</p>
     <h2 class="title rv">Trabajos recientes</h2>
-    <p class="lead rv">Toca cualquier video para reproducirlo.</p>
+    <p class="lead rv">Toca cualquier video para reproducirlo. Además de mis proyectos propios, he participado como piloto en producciones audiovisuales y corporativas.</p>
     <div class="filters rv" id="filters">
       <button class="on" data-f="all">Todos</button>
       <button data-f="fpv">FPV</button>
@@ -398,6 +398,7 @@ const CONFIG = {
 const PORTFOLIO = [
   { type:"yt", id:"sdhJAt1QkhU", cat:"reels", thumb:"assets/portada-yt.jpg" },   /* agrega thumb:"assets/archivo.jpg" para usar tu propia portada */
   { type:"yt", id:"T6c7WkApUNA", cat:"reels", thumb:"assets/portada-yt2.jpg" },
+  { type:"yt", id:"F_8PYyE2Erc", cat:"reels", title:"Video corporativo", etiqueta:"Colaboración · Piloto de drone" },
   { type:"ig", url:"https://www.instagram.com/reel/DeJwRyph8RZ/", cat:"reels" },
   /* Estos dos no se pueden reproducir fuera de Instagram (música con licencia), por eso quedan ocultos:
   { type:"ig", url:"https://www.instagram.com/reel/DZBr6riN067/", cat:"reels", formato:"horizontal" },
@@ -493,7 +494,7 @@ function tarjeta(p) {
       <img src="${p.thumb || (p.type === "yt" ? `https://i.ytimg.com/vi/${p.id}/hqdefault.jpg` : "")}" alt="${p.title || "Video del portafolio"}" loading="lazy"
         onload="if(this.naturalWidth<200)this.onerror()" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='assets/portada-video.jpg'}else{this.remove()}">
       ${p.type === "yt" ? '<div class="play">▶</div>' : ""}
-      ${p.title ? `<div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>` : ""}
+      ${p.title ? `<div class="ov"><small>${p.etiqueta || p.cat}</small><b>${p.title}</b></div>` : ""}
     </div>`;
 }
 /* horizontales en cuadrícula de 2 columnas y verticales en fila de 3, para que todo calce parejo */
