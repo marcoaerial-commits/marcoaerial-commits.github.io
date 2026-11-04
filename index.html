@@ -397,6 +397,9 @@ const CONFIG = {
    Categorías: fpv, aereo, eventos, reels */
 const PORTFOLIO = [
   { type:"yt", id:"sdhJAt1QkhU", cat:"reels", thumb:"assets/portada-yt.jpg" },   /* agrega thumb:"assets/archivo.jpg" para usar tu propia portada */
+  { type:"video", src:"assets/prensa-cnn.mp4", thumb:"assets/prensa-cnn.jpg", cat:"reels", title:"CNN Chile · Elecciones 2024", etiqueta:"Piloto de drone · Transmisión en vivo" },
+  { type:"video", src:"assets/prensa-mega.mp4", thumb:"assets/prensa-mega.jpg", cat:"reels", title:"Mega · Señal en vivo", etiqueta:"Piloto de drone · Transmisión en vivo" },
+  { type:"video", src:"assets/corporativo-uss.mp4", thumb:"assets/corporativo-uss.jpg", cat:"reels", title:"Universidad San Sebastián", etiqueta:"Piloto de drone · Video corporativo" },
   { type:"yt", id:"T6c7WkApUNA", cat:"reels", thumb:"assets/portada-yt2.jpg" },
   { type:"yt", id:"F_8PYyE2Erc", cat:"reels", title:"Video corporativo", etiqueta:"Piloto de drone" },
   { type:"ig", url:"https://www.instagram.com/reel/DeJwRyph8RZ/", cat:"reels" },
@@ -489,11 +492,11 @@ function tarjeta(p) {
       <div class="pig-crop"><iframe src="${igLink(p.url)}embed/" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; fullscreen" title="Video del portafolio"></iframe>
         <button type="button" class="pig-again" aria-label="Volver a ver el video" title="Volver a ver">↻</button></div>
     </div>` : `
-    <div class="pitem ${p.type === "yt" ? "pyt" : ""} ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}" role="button" tabindex="0" aria-label="Reproducir video">
+    <div class="pitem ${p.type === "yt" || p.type === "video" ? "pyt" : ""} ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}" role="button" tabindex="0" aria-label="Reproducir video">
       <div class="ph"></div>
       <img src="${p.thumb || (p.type === "yt" ? `https://i.ytimg.com/vi/${p.id}/hqdefault.jpg` : "")}" alt="${p.title || "Video del portafolio"}" loading="lazy"
         onload="if(this.naturalWidth<200)this.onerror()" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='assets/portada-video.jpg'}else{this.remove()}">
-      ${p.type === "yt" ? '<div class="play">▶</div>' : ""}
+      ${p.type === "yt" || p.type === "video" ? '<div class="play">▶</div>' : ""}
       ${p.title ? `<div class="ov"><small>${p.etiqueta || p.cat}</small><b>${p.title}</b></div>` : ""}
     </div>`;
 }
@@ -531,6 +534,7 @@ function openLB(p) {
   const box = $("#lbin");
   box.className = "lb-in" + (p.vertical ? " v" : "");
   if (p.type === "yt" && p.id) box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Video del portafolio"></iframe>`;
+  else if (p.type === "video") box.innerHTML = `<video src="${p.src}" poster="${p.thumb || ""}" controls autoplay playsinline style="width:100%;height:100%;background:#000"></video>`;
   else if (p.type === "img") box.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
   else return;
   $("#lb").classList.add("open");
