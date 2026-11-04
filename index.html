@@ -142,6 +142,8 @@ nav:not(.scrolled) .logo img{opacity:0}
 /* LIGHTBOX */
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .lb.open{display:flex}
+.pitem.pyt{aspect-ratio:16/9}
+.pitem.pyt img{filter:none}
 .lb-in{width:100%;max-width:1000px;aspect-ratio:16/9}
 .lb-in.v{max-width:420px;aspect-ratio:9/16}
 .lb iframe,.lb img{width:100%;height:100%;border:0;border-radius:12px;object-fit:contain}
@@ -375,6 +377,7 @@ const CONFIG = {
    - Foto:      { type:"img", src:"assets/p5.jpg", thumb:"assets/p5.jpg", title:"…", cat:"aereo" }
    Categorías: fpv, aereo, eventos, reels */
 const PORTFOLIO = [
+  { type:"yt", id:"sdhJAt1QkhU", cat:"video" },
   { type:"ig", url:"https://www.instagram.com/reel/DeJwRyph8RZ/", cat:"reels" },
   /* Estos dos no se pueden reproducir fuera de Instagram (música con licencia), por eso quedan ocultos:
   { type:"ig", url:"https://www.instagram.com/reel/DZBr6riN067/", cat:"reels", formato:"horizontal" },
@@ -465,11 +468,11 @@ function tarjeta(p) {
       <div class="pig-crop"><iframe src="${igLink(p.url)}embed/" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; fullscreen" title="Video del portafolio"></iframe>
         <button type="button" class="pig-again" aria-label="Volver a ver el video" title="Volver a ver">↻</button></div>
     </div>` : `
-    <div class="pitem ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}">
+    <div class="pitem ${p.type === "yt" ? "pyt" : ""} ${p.vertical ? "v" : ""}" data-i="${PORTFOLIO.indexOf(p)}" role="button" tabindex="0" aria-label="Reproducir video">
       <div class="ph"></div>
-      <img src="${p.thumb}" alt="${p.title}" loading="lazy" onerror="this.remove()">
+      <img src="${p.thumb || (p.type === "yt" ? `https://i.ytimg.com/vi/${p.id}/hqdefault.jpg` : "")}" alt="${p.title || "Video del portafolio"}" loading="lazy" onerror="this.remove()">
       ${p.type === "yt" ? '<div class="play">▶</div>' : ""}
-      <div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>
+      ${p.title ? `<div class="ov"><small>${p.cat}</small><b>${p.title}</b></div>` : ""}
     </div>`;
 }
 /* horizontales en cuadrícula de 2 columnas y verticales en fila de 3, para que todo calce parejo */
@@ -483,7 +486,10 @@ function renderPortfolio(f) {
   $("#pgrid").innerHTML =
     (hz.length ? `<div class="pg-h">${hz.map(tarjeta).join("")}</div>` : "") +
     (vt.length ? `<p class="swipe">Desliza para ver más →</p><div class="pg-v">${vt.map(tarjeta).join("")}</div>` : "");
-  document.querySelectorAll(".pitem").forEach(el => el.onclick = () => openLB(PORTFOLIO[el.dataset.i]));
+  document.querySelectorAll(".pitem").forEach(el => {
+    el.onclick = () => openLB(PORTFOLIO[el.dataset.i]);
+    el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLB(PORTFOLIO[el.dataset.i]); } };
+  });
   /* "volver a ver": recarga el video en la página, así no hace falta tocar el aviso de Instagram */
   document.querySelectorAll(".pig-again").forEach(b => b.onclick = () => { const f = b.previousElementSibling; f.src = f.src; });
 }
@@ -502,7 +508,7 @@ renderPortfolio("all");
 function openLB(p) {
   const box = $("#lbin");
   box.className = "lb-in" + (p.vertical ? " v" : "");
-  if (p.type === "yt" && p.id) box.innerHTML = `<iframe src="https://www.youtube.com/embed/${p.id}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  if (p.type === "yt" && p.id) box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Video del portafolio"></iframe>`;
   else if (p.type === "img") box.innerHTML = `<img src="${p.src}" alt="${p.title}">`;
   else return;
   $("#lb").classList.add("open");
