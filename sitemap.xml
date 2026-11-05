@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://marcofpv.cl/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://marcofpv.cl/</loc><changefreq>monthly</changefreq><priority>1.0</priority>
+    <image:image><image:loc>https://marcofpv.cl/assets/drone-fpv-santiago-evento-domo.jpg</image:loc></image:image>
+    <image:image><image:loc>https://marcofpv.cl/assets/drone-fpv-concierto-santiago.jpg</image:loc></image:image>
+    <image:image><image:loc>https://marcofpv.cl/assets/filmacion-aerea-drone-television-mega.jpg</image:loc></image:image>
+    <image:image><image:loc>https://marcofpv.cl/assets/toma-aerea-drone-cnn-chile.jpg</image:loc></image:image>
+    <image:image><image:loc>https://marcofpv.cl/assets/video-corporativo-drone-universidad-san-sebastian.jpg</image:loc></image:image>
+  </url>
   <url><loc>https://marcofpv.cl/cotizar.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
