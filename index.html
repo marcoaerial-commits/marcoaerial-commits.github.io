@@ -285,8 +285,8 @@ footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 <header class="hero">
   <div class="wrap hero-c">
     <img class="hero-logo" src="assets/logo-blanco.png" alt="Marco FPV Aerial Films">
-    <h1>Tomas que <em>vuelan</em> sobre <span class="rot" id="rot" aria-live="polite">estadios</span></h1>
-    <p>Video, transmisión en vivo y fotografía con drone Mavic 3 Pro y FPV, donde otras cámaras no llegan.</p>
+    <h1>Tomas <em>aéreas</em> para <span class="rot" id="rot" aria-live="polite">conciertos</span></h1>
+    <p>Video, transmisión en vivo y fotografía con drone Mavic 3 Pro y FPV, con operación certificada y segura.</p>
     <div class="ctas">
       <a href="cotizar.html" class="btn btn-primary">Cotizar en línea →</a>
       <a href="#portafolio" class="btn btn-ghost">▶ Ver trabajos</a>
@@ -583,7 +583,7 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeLB(); });
   const rot = document.getElementById("rot");
   const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (rot && !quieto) {
-    const palabras = ["estadios", "conciertos", "maratones", "auditorios", "playas", "eventos"];
+    const palabras = ["conciertos", "estadios", "televisión", "empresas", "maratones", "eventos"];
     let i = 0;
     setInterval(() => {
       rot.classList.add("out");
